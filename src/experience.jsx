@@ -1,24 +1,31 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowLeft,
   ArrowRight,
   Bookmark,
   Building2,
+  CalendarDays,
+  Check,
   CheckCircle2,
   ChevronDown,
+  CreditCard,
   ChevronRight,
   Clock3,
   Eye,
   EyeOff,
   Heart,
+  FileText,
   Landmark,
+  LayoutDashboard,
   LockKeyhole,
   Mail,
   MapPin,
   Menu,
   MessageCircle,
   Phone,
+  Plus,
   Search,
+  Settings,
   ShieldCheck,
   Sparkles,
   User,
@@ -567,23 +574,92 @@ export function PropertyWayStrip() {
     ["SACCO pathways", "Property investment concepts for SACCOs and their members.", "programmes"],
     ["Professional services", "Consulting, surveying, construction, management and maintenance.", "services"],
   ];
+  const railRef = useRef(null);
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (paused) return undefined;
+    const timer = window.setInterval(
+      () => setActive((current) => (current + 1) % cards.length),
+      4300
+    );
+    return () => window.clearInterval(timer);
+  }, [paused, cards.length]);
+
+  useEffect(() => {
+    const rail = railRef.current;
+    const card = rail?.querySelector(`[data-support-slide="${active}"]`);
+    if (!rail || !card) return;
+    const left = card.offsetLeft - (rail.clientWidth - card.clientWidth) / 2;
+    rail.scrollTo({ left: Math.max(0, left), behavior: "smooth" });
+  }, [active]);
+
+  const move = (direction) => {
+    setActive((current) => (current + direction + cards.length) % cards.length);
+  };
+
   return (
     <section className="property-way">
-      <div className="shell">
-        <span className="eyebrow">Property ownership, your way</span>
-        <h2>Choose the kind of support you need</h2>
+      <div className="shell property-way__head">
+        <div>
+          <span className="eyebrow">Property ownership, your way</span>
+          <h2>Choose the kind of support you need</h2>
+          <p>
+            A guided HED experience that automatically moves through the services and ownership pathways available to different customers.
+          </p>
+        </div>
+        <div className="property-way__controls" aria-label="Support carousel controls">
+          <button onClick={() => move(-1)} aria-label="Previous support option"><ArrowLeft size={18} /></button>
+          <button onClick={() => move(1)} aria-label="Next support option"><ArrowRight size={18} /></button>
+        </div>
       </div>
-      <div className="property-way__rail">
+
+      <div
+        ref={railRef}
+        className="property-way__rail"
+        onPointerEnter={() => setPaused(true)}
+        onPointerLeave={() => setPaused(false)}
+        onFocusCapture={() => setPaused(true)}
+        onBlurCapture={() => setPaused(false)}
+      >
         {cards.map(([title, text, path], i) => (
-          <Link to={`/${path}`} className="property-way__card" key={title}>
-            <span>{String(i + 1).padStart(2, "0")}</span>
+          <Link
+            to={`/${path}`}
+            className={`property-way__card ${active === i ? "is-active" : ""}`}
+            key={title}
+            data-support-slide={i}
+            onMouseEnter={() => setActive(i)}
+          >
+            <div className="property-way__card-top">
+              <span>{String(i + 1).padStart(2, "0")}</span>
+              <small>{active === i ? "In focus" : "Explore"}</small>
+            </div>
             <div>
               <h3>{title}</h3>
               <p>{text}</p>
             </div>
-            <ArrowRight size={19} />
+            <div className="property-way__card-action">
+              <span>View pathway</span>
+              <ArrowRight size={19} />
+            </div>
           </Link>
         ))}
+      </div>
+
+      <div className="shell property-way__progress">
+        <span>{String(active + 1).padStart(2, "0")}</span>
+        <div>
+          {cards.map((card, i) => (
+            <button
+              key={card[0]}
+              className={active === i ? "active" : ""}
+              onClick={() => setActive(i)}
+              aria-label={`Show ${card[0]}`}
+            />
+          ))}
+        </div>
+        <span>{String(cards.length).padStart(2, "0")}</span>
       </div>
     </section>
   );
@@ -659,11 +735,15 @@ export function SavePropertyButton({ slug, className = "" }) {
 function AuthCard({ mode }) {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [remember, setRemember] = useState(true);
+  const [resetMode, setResetMode] = useState(false);
+  const [resetSent, setResetSent] = useState(false);
   const existing = readJson("hed_demo_account", null);
   const [form, setForm] = useState({
     name: existing?.name || "",
     email: existing?.email || "",
     phone: existing?.phone || "",
+    accountType: existing?.accountType || "Buyer / Investor",
     password: "",
   });
   const [error, setError] = useState("");
@@ -677,55 +757,181 @@ function AuthCard({ mode }) {
     }
 
     if (mode === "signup") {
-      localStorage.setItem("hed_demo_account", JSON.stringify({ name: form.name || "HED Client", email: form.email, phone: form.phone }));
+      localStorage.setItem(
+        "hed_demo_account",
+        JSON.stringify({
+          name: form.name || "HED Client",
+          email: form.email,
+          phone: form.phone,
+          accountType: form.accountType,
+        })
+      );
     } else {
       const account = existing;
-      if (account && account.email.toLowerCase() !== form.email.toLowerCase() && form.email.toLowerCase() !== "demo@hed.co.ug") {
+      if (
+        account &&
+        account.email.toLowerCase() !== form.email.toLowerCase() &&
+        form.email.toLowerCase() !== "demo@hed.co.ug"
+      ) {
         setError("For this demo, use the account you created or demo@hed.co.ug.");
         return;
       }
       if (!account && form.email.toLowerCase() !== "demo@hed.co.ug") {
-        localStorage.setItem("hed_demo_account", JSON.stringify({ name: "HED Client", email: form.email, phone: "" }));
+        localStorage.setItem(
+          "hed_demo_account",
+          JSON.stringify({
+            name: "HED Client",
+            email: form.email,
+            phone: "",
+            accountType: "Buyer / Investor",
+          })
+        );
       }
     }
+
     localStorage.setItem("hed_demo_session", "true");
+    localStorage.setItem("hed_demo_remember", remember ? "true" : "false");
     navigate("/account");
   };
 
+  const sendReset = (e) => {
+    e.preventDefault();
+    if (!form.email.includes("@")) {
+      setError("Enter the email address you want to use for the demo reset flow.");
+      return;
+    }
+    setError("");
+    setResetSent(true);
+  };
+
   return (
-    <div className="auth-card">
-      <div className="auth-card__brand"><img src={company.logo} alt="" /><span>HED Client Access</span></div>
-      <span className="eyebrow">{mode === "login" ? "Welcome back" : "Create demo access"}</span>
-      <h1>{mode === "login" ? "Login" : "Create your HED account"}</h1>
-      <p>
-        {mode === "login"
-          ? "Access a front-end demonstration of saved properties and client preferences."
-          : "Create a local demo profile to test the future HED customer-account experience."}
-      </p>
-
-      <form onSubmit={submit}>
-        {mode === "signup" && (
-          <div className="auth-grid">
-            <label>Full name<input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Your full name" /></label>
-            <label>Phone number<input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="+256..." /></label>
-          </div>
-        )}
-        <label>Email address<input required type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="you@example.com" /></label>
-        <label>
-          Password
-          <div className="auth-password">
-            <input required type={showPassword ? "text" : "password"} value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder="4+ characters for demo" />
-            <button type="button" onClick={() => setShowPassword((v) => !v)} aria-label="Toggle password visibility">{showPassword ? <EyeOff size={17} /> : <Eye size={17} />}</button>
-          </div>
-        </label>
-        {error && <div className="auth-error">{error}</div>}
-        <button className="btn btn--dark btn--full" type="submit">{mode === "login" ? "Sign in" : "Create account"} <ArrowRight size={17} /></button>
-      </form>
-
-      {mode === "login" && <div className="auth-demo-note"><LockKeyhole size={16} /><span>Demo shortcut: <strong>demo@hed.co.ug</strong> with any 4+ character password.</span></div>}
-      <div className="auth-switch">
-        {mode === "login" ? <>New to HED? <Link to="/signup">Create demo account</Link></> : <>Already have access? <Link to="/login">Login</Link></>}
+    <div className="auth-card auth-card--advanced">
+      <div className="auth-card__brand">
+        <img src={company.logo} alt="" />
+        <span>
+          <small>Secure demo access</small>
+          <strong>My HED Client Portal</strong>
+        </span>
       </div>
+
+      {resetMode ? (
+        <div className="auth-reset">
+          <span className="eyebrow">Account recovery • Demo</span>
+          <h1>Reset access</h1>
+          <p>
+            This demonstrates the future recovery journey. No real password email is sent from this prototype.
+          </p>
+          {resetSent ? (
+            <div className="auth-reset__success">
+              <CheckCircle2 size={30} />
+              <h3>Recovery flow simulated</h3>
+              <p>A production version can send a secure one-time reset link to {form.email}.</p>
+              <button className="btn btn--dark btn--full" onClick={() => { setResetMode(false); setResetSent(false); }}>Return to login</button>
+            </div>
+          ) : (
+            <form onSubmit={sendReset}>
+              <label>
+                Email address
+                <input required type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="you@example.com" />
+              </label>
+              {error && <div className="auth-error">{error}</div>}
+              <button className="btn btn--dark btn--full" type="submit">Continue recovery <ArrowRight size={17} /></button>
+              <button className="auth-text-button" type="button" onClick={() => setResetMode(false)}>Back to login</button>
+            </form>
+          )}
+        </div>
+      ) : (
+        <>
+          <span className="eyebrow">{mode === "login" ? "Welcome back" : "Create demo access"}</span>
+          <h1>{mode === "login" ? "Continue your property journey" : "Create your HED account"}</h1>
+          <p>
+            {mode === "login"
+              ? "Sign in to test saved properties, enquiries, site inspections, documents, payment milestones and profile management."
+              : "Create a local demo profile and experience how HED's future digital customer portal can work."}
+          </p>
+
+          <div className="auth-capabilities">
+            <span><Heart size={14} /> Saved properties</span>
+            <span><MessageCircle size={14} /> Enquiries</span>
+            <span><CalendarDays size={14} /> Site visits</span>
+          </div>
+
+          <form onSubmit={submit}>
+            {mode === "signup" && (
+              <>
+                <div className="auth-grid">
+                  <label>
+                    Full name
+                    <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Your full name" />
+                  </label>
+                  <label>
+                    Phone number
+                    <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="+256..." />
+                  </label>
+                </div>
+                <label>
+                  I am joining HED as
+                  <select value={form.accountType} onChange={(e) => setForm({ ...form, accountType: e.target.value })}>
+                    <option>Buyer / Investor</option>
+                    <option>Diaspora investor</option>
+                    <option>SACCO member</option>
+                    <option>Property owner</option>
+                    <option>Institutional partner</option>
+                  </select>
+                </label>
+              </>
+            )}
+
+            <label>
+              Email address
+              <input required type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="you@example.com" autoComplete="email" />
+            </label>
+
+            <label>
+              Password
+              <div className="auth-password">
+                <input required type={showPassword ? "text" : "password"} value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder="4+ characters for demo" autoComplete={mode === "login" ? "current-password" : "new-password"} />
+                <button type="button" onClick={() => setShowPassword((v) => !v)} aria-label="Toggle password visibility">
+                  {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
+                </button>
+              </div>
+            </label>
+
+            {mode === "login" && (
+              <div className="auth-options">
+                <label className="auth-check">
+                  <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} />
+                  <span><Check size={13} /> Remember this demo session</span>
+                </label>
+                <button type="button" onClick={() => setResetMode(true)}>Forgot access?</button>
+              </div>
+            )}
+
+            {error && <div className="auth-error">{error}</div>}
+            <button className="btn btn--dark btn--full" type="submit">
+              {mode === "login" ? "Sign in to My HED" : "Create account"} <ArrowRight size={17} />
+            </button>
+          </form>
+
+          {mode === "login" && (
+            <button
+              className="auth-demo-login"
+              onClick={() => {
+                setForm({ ...form, email: "demo@hed.co.ug", password: "hed-demo" });
+              }}
+            >
+              <span><LockKeyhole size={16} /> Use prepared demo account</span>
+              <small>demo@hed.co.ug</small>
+            </button>
+          )}
+
+          <div className="auth-switch">
+            {mode === "login"
+              ? <>New to HED? <Link to="/signup">Create demo account</Link></>
+              : <>Already have access? <Link to="/login">Login</Link></>}
+          </div>
+        </>
+      )}
     </div>
   );
 }
@@ -740,8 +946,23 @@ export function SignupDemo() {
 
 export function AccountDashboard() {
   const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState("overview");
   const [saved, setSaved] = useState(() => readJson("hed_saved_properties", []));
-  const account = readJson("hed_demo_account", { name: "HED Client", email: "demo@hed.co.ug", phone: "" });
+  const [enquiries, setEnquiries] = useState(() => readJson("hed_demo_enquiries", []));
+  const [inspections, setInspections] = useState(() => readJson("hed_demo_inspections", []));
+  const initialAccount = readJson("hed_demo_account", {
+    name: "HED Client",
+    email: "demo@hed.co.ug",
+    phone: "",
+    accountType: "Buyer / Investor",
+  });
+  const [profile, setProfile] = useState(initialAccount);
+  const [profileSaved, setProfileSaved] = useState(false);
+  const [inspectionForm, setInspectionForm] = useState({
+    property: properties.find((p) => p.image)?.slug || properties[0]?.slug || "",
+    date: "",
+    time: "10:00",
+  });
   const session = Boolean(localStorage.getItem("hed_demo_session"));
 
   useEffect(() => {
@@ -752,59 +973,287 @@ export function AccountDashboard() {
   }, [navigate, session]);
 
   const savedProperties = properties.filter((property) => saved.includes(property.slug));
+  const imageProperties = properties.filter((property) => Boolean(property.image));
 
   const signOut = () => {
     localStorage.removeItem("hed_demo_session");
     navigate("/login");
   };
 
-  return (
-    <div className="account-page">
-      <div className="account-hero">
-        <div>
-          <span className="eyebrow">My HED • Demo</span>
-          <h1>Welcome, {account.name || "HED Client"}</h1>
-          <p>Prototype customer workspace for saved property opportunities, account details and future service tracking.</p>
+  const createEnquiry = () => {
+    const property = savedProperties[0] || imageProperties[0] || properties[0];
+    if (!property) return;
+    const next = [
+      {
+        id: Date.now(),
+        title: property.title,
+        corridor: property.corridor,
+        status: "Open",
+        createdAt: new Date().toLocaleDateString("en-GB"),
+      },
+      ...enquiries,
+    ];
+    setEnquiries(next);
+    localStorage.setItem("hed_demo_enquiries", JSON.stringify(next));
+  };
+
+  const scheduleInspection = (e) => {
+    e.preventDefault();
+    if (!inspectionForm.date) return;
+    const property = properties.find((item) => item.slug === inspectionForm.property);
+    const next = [
+      {
+        id: Date.now(),
+        property: property?.title || "HED estate",
+        date: inspectionForm.date,
+        time: inspectionForm.time,
+        status: "Requested",
+      },
+      ...inspections,
+    ];
+    setInspections(next);
+    localStorage.setItem("hed_demo_inspections", JSON.stringify(next));
+    setInspectionForm({ ...inspectionForm, date: "" });
+  };
+
+  const saveProfile = (e) => {
+    e.preventDefault();
+    localStorage.setItem("hed_demo_account", JSON.stringify(profile));
+    setProfileSaved(true);
+    window.setTimeout(() => setProfileSaved(false), 2200);
+  };
+
+  const tabs = [
+    ["overview", "Overview", LayoutDashboard],
+    ["saved", "Saved", Heart],
+    ["enquiries", "Enquiries", MessageCircle],
+    ["inspections", "Site visits", CalendarDays],
+    ["documents", "Documents", FileText],
+    ["payments", "Payments", CreditCard],
+    ["profile", "Profile", Settings],
+  ];
+
+  const renderSaved = () => (
+    <section className="account-workspace">
+      <div className="account-section__head">
+        <div><span className="eyebrow">Saved properties</span><h2>Your shortlist</h2></div>
+        <Link className="text-link" to="/properties">Browse more <ArrowRight size={16} /></Link>
+      </div>
+      {savedProperties.length ? (
+        <div className="account-saved-grid">
+          {savedProperties.map((property) => (
+            <Link key={property.slug} to={`/properties/${property.slug}`} className="account-property">
+              <div>{property.image ? <img src={property.image} alt="" /> : <Landmark size={30} />}</div>
+              <span><small>{property.corridor}</small><strong>{property.title}</strong><em>{property.displayPrice}</em></span>
+              <ChevronRight size={18} />
+            </Link>
+          ))}
         </div>
-        <button className="btn btn--ghost" onClick={signOut}>Sign out</button>
-      </div>
+      ) : (
+        <div className="account-empty">
+          <Heart size={29} />
+          <h3>No saved properties yet</h3>
+          <p>Use the heart icon on estate cards to build a shortlist.</p>
+          <Link className="btn btn--dark" to="/properties">Explore properties</Link>
+        </div>
+      )}
+    </section>
+  );
 
-      <div className="account-stats">
-        <div><Bookmark size={20} /><strong>{savedProperties.length}</strong><span>Saved opportunities</span></div>
-        <div><MessageCircle size={20} /><strong>0</strong><span>Active enquiries</span></div>
-        <div><Clock3 size={20} /><strong>0</strong><span>Scheduled inspections</span></div>
-        <div><ShieldCheck size={20} /><strong>Demo</strong><span>Client portal stage</span></div>
-      </div>
+  const renderContent = () => {
+    if (activeTab === "saved") return renderSaved();
 
-      <section className="account-section">
-        <div className="account-section__head"><div><span className="eyebrow">Saved properties</span><h2>Your shortlist</h2></div><Link className="text-link" to="/properties">Browse more <ArrowRight size={16} /></Link></div>
-        {savedProperties.length ? (
-          <div className="account-saved-grid">
-            {savedProperties.map((property) => (
-              <Link key={property.slug} to={`/properties/${property.slug}`} className="account-property">
-                <div>{property.image ? <img src={property.image} alt="" /> : <Landmark size={30} />}</div>
-                <span><small>{property.corridor}</small><strong>{property.title}</strong><em>{property.displayPrice}</em></span>
-                <ChevronRight size={18} />
-              </Link>
+    if (activeTab === "enquiries") {
+      return (
+        <section className="account-workspace">
+          <div className="account-section__head">
+            <div><span className="eyebrow">Enquiry centre • Demo</span><h2>Your property conversations</h2></div>
+            <button className="btn btn--dark" onClick={createEnquiry}><Plus size={16} /> Start demo enquiry</button>
+          </div>
+          {enquiries.length ? (
+            <div className="account-list">
+              {enquiries.map((item) => (
+                <article key={item.id}>
+                  <div className="account-list__icon"><MessageCircle size={18} /></div>
+                  <div><small>{item.corridor}</small><h3>{item.title}</h3><p>Created {item.createdAt}</p></div>
+                  <span className="account-status account-status--open">{item.status}</span>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div className="account-empty account-empty--compact">
+              <MessageCircle size={27} />
+              <h3>No active enquiries</h3>
+              <p>Create a demo enquiry to see how HED could track consultant conversations and follow-ups.</p>
+            </div>
+          )}
+        </section>
+      );
+    }
+
+    if (activeTab === "inspections") {
+      return (
+        <section className="account-workspace">
+          <div className="account-section__head">
+            <div><span className="eyebrow">Site inspections • Demo</span><h2>Schedule a property visit</h2></div>
+          </div>
+          <div className="inspection-layout">
+            <form className="inspection-form" onSubmit={scheduleInspection}>
+              <label>
+                Estate
+                <select value={inspectionForm.property} onChange={(e) => setInspectionForm({ ...inspectionForm, property: e.target.value })}>
+                  {imageProperties.map((property) => <option key={property.slug} value={property.slug}>{property.title}</option>)}
+                </select>
+              </label>
+              <div className="auth-grid">
+                <label>Date<input required type="date" value={inspectionForm.date} onChange={(e) => setInspectionForm({ ...inspectionForm, date: e.target.value })} /></label>
+                <label>Preferred time<input type="time" value={inspectionForm.time} onChange={(e) => setInspectionForm({ ...inspectionForm, time: e.target.value })} /></label>
+              </div>
+              <button className="btn btn--dark btn--full" type="submit">Request inspection <CalendarDays size={16} /></button>
+              <small>Demo only — this does not book a real HED appointment.</small>
+            </form>
+            <div className="inspection-list">
+              {inspections.length ? inspections.map((item) => (
+                <article key={item.id}>
+                  <CalendarDays size={18} />
+                  <div><strong>{item.property}</strong><span>{item.date} • {item.time}</span></div>
+                  <span className="account-status">{item.status}</span>
+                </article>
+              )) : (
+                <div className="account-empty account-empty--compact"><Clock3 size={27} /><h3>No inspections requested</h3><p>Your requested visits will appear here.</p></div>
+              )}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    if (activeTab === "documents") {
+      const docs = [
+        ["Property verification checklist", "Waiting for property selection", "Pending"],
+        ["Identity / KYC documents", "Secure upload area placeholder", "Not uploaded"],
+        ["Offer / payment-plan documents", "Generated after agreed terms", "Future"],
+        ["Transfer / title documentation", "Tracked during transaction", "Future"],
+      ];
+      return (
+        <section className="account-workspace">
+          <div className="account-section__head"><div><span className="eyebrow">Document room • Demo</span><h2>Transaction documents</h2></div></div>
+          <div className="document-grid">
+            {docs.map(([title, text, status]) => (
+              <article key={title}>
+                <FileText size={20} />
+                <div><h3>{title}</h3><p>{text}</p></div>
+                <span>{status}</span>
+              </article>
             ))}
           </div>
-        ) : (
-          <div className="account-empty"><Heart size={29} /><h3>No saved properties yet</h3><p>Use the heart icon on estate cards to build a shortlist.</p><Link className="btn btn--dark" to="/properties">Explore properties</Link></div>
-        )}
-      </section>
+          <div className="demo-disclaimer"><ShieldCheck size={16} /> No real customer documents are uploaded or stored in this front-end prototype.</div>
+        </section>
+      );
+    }
 
-      <section className="account-section account-section--soft">
-        <span className="eyebrow">Future production functionality</span>
-        <h2>What the real portal can become</h2>
-        <div className="account-roadmap">
-          {[
-            ["Enquiry timeline", "Track conversations, follow-ups and assigned HED consultants."],
-            ["Site inspections", "Schedule, confirm and review property inspection appointments."],
-            ["Document room", "Securely exchange verification and transaction documents."],
-            ["Payment milestones", "Track agreed property-investment or payment milestones."],
-          ].map(([title, text]) => <article key={title}><Sparkles size={18} /><h3>{title}</h3><p>{text}</p></article>)}
+    if (activeTab === "payments") {
+      const milestones = [
+        ["01", "Property selected", "Choose the estate and confirm the applicable terms.", true],
+        ["02", "Agreement stage", "Review the agreed payment structure and transaction documents.", false],
+        ["03", "Payment milestones", "Track instalments or agreed transaction payments.", false],
+        ["04", "Completion & transfer", "Confirm completion and applicable title or transfer processing.", false],
+      ];
+      return (
+        <section className="account-workspace">
+          <div className="account-section__head"><div><span className="eyebrow">Payment journey • Demo</span><h2>Milestone tracker</h2></div></div>
+          <div className="payment-progress">
+            {milestones.map(([n,title,text,done]) => (
+              <article key={n} className={done ? "is-complete" : ""}>
+                <span>{done ? <Check size={15} /> : n}</span>
+                <div><h3>{title}</h3><p>{text}</p></div>
+              </article>
+            ))}
+          </div>
+          <div className="demo-disclaimer"><CreditCard size={16} /> Sample interface only. No real financial transaction or balance is represented here.</div>
+        </section>
+      );
+    }
+
+    if (activeTab === "profile") {
+      return (
+        <section className="account-workspace">
+          <div className="account-section__head"><div><span className="eyebrow">Account settings • Demo</span><h2>Your HED profile</h2></div></div>
+          <form className="profile-form" onSubmit={saveProfile}>
+            <div className="auth-grid">
+              <label>Full name<input value={profile.name || ""} onChange={(e) => setProfile({ ...profile, name: e.target.value })} /></label>
+              <label>Phone<input value={profile.phone || ""} onChange={(e) => setProfile({ ...profile, phone: e.target.value })} /></label>
+            </div>
+            <label>Email<input type="email" value={profile.email || ""} onChange={(e) => setProfile({ ...profile, email: e.target.value })} /></label>
+            <label>
+              Customer type
+              <select value={profile.accountType || "Buyer / Investor"} onChange={(e) => setProfile({ ...profile, accountType: e.target.value })}>
+                <option>Buyer / Investor</option>
+                <option>Diaspora investor</option>
+                <option>SACCO member</option>
+                <option>Property owner</option>
+                <option>Institutional partner</option>
+              </select>
+            </label>
+            <button className="btn btn--dark" type="submit">{profileSaved ? "Saved" : "Save demo profile"} {profileSaved ? <Check size={16} /> : <ArrowRight size={16} />}</button>
+          </form>
+        </section>
+      );
+    }
+
+    return (
+      <>
+        <section className="account-overview-grid">
+          <button onClick={() => setActiveTab("saved")}><Bookmark size={20} /><strong>{savedProperties.length}</strong><span>Saved opportunities</span><ChevronRight size={16} /></button>
+          <button onClick={() => setActiveTab("enquiries")}><MessageCircle size={20} /><strong>{enquiries.length}</strong><span>Active enquiries</span><ChevronRight size={16} /></button>
+          <button onClick={() => setActiveTab("inspections")}><Clock3 size={20} /><strong>{inspections.length}</strong><span>Site visits</span><ChevronRight size={16} /></button>
+          <button onClick={() => setActiveTab("documents")}><FileText size={20} /><strong>Demo</strong><span>Document room</span><ChevronRight size={16} /></button>
+        </section>
+
+        {renderSaved()}
+
+        <section className="account-section account-section--soft">
+          <span className="eyebrow">Digital customer journey</span>
+          <h2>More than a login page</h2>
+          <div className="account-roadmap">
+            {[
+              ["Enquiry timeline", "Track conversations, follow-ups and assigned HED consultants."],
+              ["Site inspections", "Schedule, confirm and review property inspection appointments."],
+              ["Document room", "Securely exchange verification and transaction documents."],
+              ["Payment milestones", "Track agreed property-investment or payment milestones."],
+            ].map(([title, text]) => <article key={title}><Sparkles size={18} /><h3>{title}</h3><p>{text}</p></article>)}
+          </div>
+        </section>
+      </>
+    );
+  };
+
+  return (
+    <div className="account-page account-page--advanced">
+      <div className="account-hero account-hero--advanced">
+        <div>
+          <span className="eyebrow">My HED • Client portal demo</span>
+          <h1>Welcome, {profile.name || "HED Client"}</h1>
+          <p>
+            A working front-end prototype for saved properties, enquiries, inspections, documentation, payment milestones and customer profile management.
+          </p>
         </div>
-      </section>
+        <div className="account-hero__actions">
+          <span className="account-type-badge">{profile.accountType || "Buyer / Investor"}</span>
+          <button className="btn btn--ghost" onClick={signOut}>Sign out</button>
+        </div>
+      </div>
+
+      <nav className="account-tabs" aria-label="My HED sections">
+        {tabs.map(([value,label,Icon]) => (
+          <button key={value} className={activeTab === value ? "active" : ""} onClick={() => setActiveTab(value)}>
+            <Icon size={16} />
+            <span>{label}</span>
+          </button>
+        ))}
+      </nav>
+
+      <div className="account-content">{renderContent()}</div>
     </div>
   );
 }
