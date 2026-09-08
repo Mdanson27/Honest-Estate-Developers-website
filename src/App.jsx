@@ -15,6 +15,7 @@ import {
   Landmark,
   Mail,
   MapPin,
+  Newspaper,
   Menu,
   MessageCircle,
   Phone,
@@ -423,6 +424,206 @@ function PropertyCard({ property }) {
   );
 }
 
+function LatestFromHed() {
+  const latestInsight = insights[0];
+  const recentWithImages = [...properties]
+    .filter((property) => Boolean(property.image))
+    .sort((a, b) => b.id - a.id)
+    .slice(0, 3);
+
+  return (
+    <section className="section latest-section">
+      <div className="shell">
+        <SectionIntro
+          eyebrow="Newest & latest"
+          title="The latest from Honest Estate Developers"
+          copy="Recent property opportunities and the newest educational content currently available in the HED website portfolio."
+          action={
+            <Link className="text-link" to="/insights">
+              View all insights <ArrowRight size={17} />
+            </Link>
+          }
+        />
+
+        <div className="latest-layout">
+          <article className="latest-feature">
+            <div className="latest-feature__label">
+              <Newspaper size={16} />
+              Latest insight
+            </div>
+            <span className="latest-feature__date">{latestInsight.date}</span>
+            <h3>{latestInsight.title}</h3>
+            <p>{latestInsight.excerpt}</p>
+            <Link className="btn btn--dark" to="/insights">
+              Read latest insight <ArrowRight size={16} />
+            </Link>
+          </article>
+
+          <div className="latest-properties">
+            <div className="latest-properties__heading">
+              <span>Recently highlighted opportunities</span>
+              <Link to="/properties">View portfolio <ArrowRight size={15} /></Link>
+            </div>
+            {recentWithImages.map((property, index) => (
+              <Link
+                key={property.slug}
+                to={`/properties/${property.slug}`}
+                className="latest-property-row"
+              >
+                <div className="latest-property-row__image">
+                  <img src={property.image} alt={property.title} />
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                </div>
+                <div className="latest-property-row__copy">
+                  <small>{property.corridor}</small>
+                  <h3>{property.title}</h3>
+                  <p>{property.location}</p>
+                </div>
+                <strong>{property.displayPrice}</strong>
+                <ArrowRight size={18} />
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function NewsletterSignup() {
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    interest: "Property opportunities",
+  });
+  const [status, setStatus] = useState("idle");
+
+  const submit = (event) => {
+    event.preventDefault();
+    if (!form.email.includes("@")) {
+      setStatus("error");
+      return;
+    }
+
+    try {
+      const existing = JSON.parse(localStorage.getItem("hed_newsletter_subscribers") || "[]");
+      const normalizedEmail = form.email.trim().toLowerCase();
+      const alreadySubscribed = existing.some(
+        (subscriber) => subscriber.email === normalizedEmail
+      );
+
+      if (!alreadySubscribed) {
+        existing.unshift({
+          ...form,
+          email: normalizedEmail,
+          subscribedAt: new Date().toISOString(),
+        });
+        localStorage.setItem(
+          "hed_newsletter_subscribers",
+          JSON.stringify(existing.slice(0, 50))
+        );
+      }
+      setStatus(alreadySubscribed ? "exists" : "success");
+    } catch {
+      setStatus("success");
+    }
+  };
+
+  return (
+    <section className="newsletter-section">
+      <div className="shell newsletter-shell">
+        <div className="newsletter-copy">
+          <span className="eyebrow">HED Weekly</span>
+          <h2>Property opportunities and useful updates, once a week.</h2>
+          <p>
+            Subscribe for selected estate opportunities, investment guidance,
+            property education and important HED updates.
+          </p>
+          <div className="newsletter-benefits">
+            <span><Check size={14} /> New property opportunities</span>
+            <span><Check size={14} /> Investment & ownership guidance</span>
+            <span><Check size={14} /> HED news and announcements</span>
+          </div>
+        </div>
+
+        <form className="newsletter-form" onSubmit={submit}>
+          <div className="newsletter-form__top">
+            <Mail size={22} />
+            <div>
+              <small>Weekly newsletter</small>
+              <strong>Stay connected to HED</strong>
+            </div>
+          </div>
+
+          <label>
+            Name
+            <input
+              value={form.name}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              placeholder="Your name"
+            />
+          </label>
+
+          <label>
+            Email address
+            <input
+              required
+              type="email"
+              value={form.email}
+              onChange={(e) => {
+                setStatus("idle");
+                setForm({ ...form, email: e.target.value });
+              }}
+              placeholder="you@example.com"
+            />
+          </label>
+
+          <label>
+            Most interested in
+            <select
+              value={form.interest}
+              onChange={(e) => setForm({ ...form, interest: e.target.value })}
+            >
+              <option>Property opportunities</option>
+              <option>Investment programmes</option>
+              <option>Diaspora property investment</option>
+              <option>Property education & insights</option>
+              <option>HED company updates</option>
+            </select>
+          </label>
+
+          <button className="btn btn--brand btn--full" type="submit">
+            Subscribe to HED Weekly <ArrowRight size={17} />
+          </button>
+
+          {status === "success" && (
+            <div className="newsletter-status newsletter-status--success">
+              <Check size={15} />
+              You're subscribed to the HED Weekly demo list.
+            </div>
+          )}
+          {status === "exists" && (
+            <div className="newsletter-status">
+              <Mail size={15} />
+              This email is already on the HED Weekly demo list.
+            </div>
+          )}
+          {status === "error" && (
+            <div className="newsletter-status newsletter-status--error">
+              Please enter a valid email address.
+            </div>
+          )}
+
+          <small className="newsletter-form__note">
+            Prototype subscription: the current demo stores subscriptions on this device.
+            Production can connect this form to HED's email platform or CRM.
+          </small>
+        </form>
+      </div>
+    </section>
+  );
+}
+
 function HomePage() {
   const featured = properties.filter((p) => p.featured).slice(0, 4);
 
@@ -480,6 +681,8 @@ function HomePage() {
           </div>
         </div>
       </section>
+
+      <LatestFromHed />
 
       <section className="section section--soft">
         <div className="shell">
@@ -634,6 +837,8 @@ function HomePage() {
           </div>
         </div>
       </section>
+
+      <NewsletterSignup />
 
       <ReviewsShowcase />
 
