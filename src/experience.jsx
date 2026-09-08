@@ -161,9 +161,9 @@ export function ExclusiveLoader() {
     const reduced =
       window.matchMedia &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const readyAt = reduced ? 420 : 2500;
-    const openAt = reduced ? 620 : 2920;
-    const doneAt = reduced ? 850 : 3650;
+    const readyAt = reduced ? 420 : 2860;
+    const openAt = reduced ? 650 : 3380;
+    const doneAt = reduced ? 900 : 4140;
 
     const ready = window.setTimeout(() => setPhase("ready"), readyAt);
     const open = window.setTimeout(() => setPhase("opening"), openAt);
@@ -202,6 +202,11 @@ export function ExclusiveLoader() {
           <span className="hed-rebuild__company">HONEST ESTATE DEVELOPERS LTD</span>
           <span className="hed-rebuild__accent" />
           <span className="hed-rebuild__roof" />
+          <img
+            className="hed-rebuild__official"
+            src={company.logo}
+            alt="Honest Estate Developers Ltd"
+          />
           <span className="hed-rebuild__shine" />
         </div>
 
@@ -210,7 +215,7 @@ export function ExclusiveLoader() {
           <span>INTEGRITY</span><i />
           <span>EXCELLENCE</span>
         </div>
-        <small>Entering a premium property experience</small>
+        <small>Honesty • Integrity • Excellence</small>
       </div>
     </div>
   );
