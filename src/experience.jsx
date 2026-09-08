@@ -94,7 +94,7 @@ const CORRIDORS = [
     subtitle: "Residential & investment growth",
     query: "/properties?corridor=Entebbe%20Road",
     image:
-      "https://www.honestestatedevelopers.com/images/property/150364507020231024110434am.jpg",
+      "https://www.honestestatedevelopers.com/images/property/150364507020231006041201pm.jpg",
   },
   {
     name: "Namugongo Road",
@@ -148,18 +148,23 @@ function readJson(key, fallback) {
 }
 
 export function ExclusiveLoader() {
-  const [phase, setPhase] = useState("enter");
+  const [phase, setPhase] = useState("building");
 
   useEffect(() => {
     const reduced =
       window.matchMedia &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const leaveAt = reduced ? 500 : 1950;
-    const doneAt = reduced ? 850 : 2600;
-    const leave = window.setTimeout(() => setPhase("leave"), leaveAt);
+    const readyAt = reduced ? 420 : 2500;
+    const openAt = reduced ? 620 : 2920;
+    const doneAt = reduced ? 850 : 3650;
+
+    const ready = window.setTimeout(() => setPhase("ready"), readyAt);
+    const open = window.setTimeout(() => setPhase("opening"), openAt);
     const done = window.setTimeout(() => setPhase("done"), doneAt);
+
     return () => {
-      window.clearTimeout(leave);
+      window.clearTimeout(ready);
+      window.clearTimeout(open);
       window.clearTimeout(done);
     };
   }, []);
@@ -168,24 +173,37 @@ export function ExclusiveLoader() {
 
   return (
     <div className={`exclusive-loader exclusive-loader--${phase}`} aria-label="Entering Honest Estate Developers">
-      <div className="exclusive-loader__panel exclusive-loader__panel--left" />
-      <div className="exclusive-loader__panel exclusive-loader__panel--right" />
+      <div className="exclusive-loader__ambient" aria-hidden="true" />
+      <div className="exclusive-loader__panel exclusive-loader__panel--left" aria-hidden="true" />
+      <div className="exclusive-loader__panel exclusive-loader__panel--right" aria-hidden="true" />
+
       <div className="exclusive-loader__stage">
-        <div className="hed-gate">
-          <span className="hed-gate__roof" />
-          <span className="hed-gate__pillar hed-gate__pillar--left" />
-          <span className="hed-gate__pillar hed-gate__pillar--right" />
-          <div className="hed-gate__letters" aria-hidden="true">
-            <span>H</span>
-            <span>E</span>
-            <span>D</span>
+        <div className="hed-rebuild" aria-hidden="true">
+          <span className="hed-rebuild__glow" />
+          <span className="hed-rebuild__pillar hed-rebuild__pillar--left" />
+          <span className="hed-rebuild__pillar hed-rebuild__pillar--right" />
+          <span className="hed-rebuild__foot hed-rebuild__foot--left" />
+          <span className="hed-rebuild__foot hed-rebuild__foot--right" />
+
+          <div className="hed-rebuild__letters">
+            <span className="hed-letter hed-letter--h">H</span>
+            <span className="hed-letter hed-letter--e">E</span>
+            <span className="hed-letter hed-letter--d">D</span>
           </div>
-          <span className="hed-gate__base" />
+
+          <span className="hed-rebuild__base" />
+          <span className="hed-rebuild__company">HONEST ESTATE DEVELOPERS LTD</span>
+          <span className="hed-rebuild__accent" />
+          <span className="hed-rebuild__roof" />
+          <span className="hed-rebuild__shine" />
         </div>
-        <div className="exclusive-loader__name">Honest Estate Developers Ltd</div>
-        <div className="exclusive-loader__promise">Honesty <i /> Integrity <i /> Excellence</div>
-        <div className="exclusive-loader__line"><span /></div>
-        <small>Opening a clearer path to property ownership</small>
+
+        <div className="exclusive-loader__copy">
+          <span>HONESTY</span><i />
+          <span>INTEGRITY</span><i />
+          <span>EXCELLENCE</span>
+        </div>
+        <small>Entering a premium property experience</small>
       </div>
     </div>
   );
