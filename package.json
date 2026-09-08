@@ -4,7 +4,10 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "prepare:index": "node scripts/prepare-index.mjs",
+    "predev": "npm run prepare:index",
     "dev": "vite",
+    "prebuild": "npm run prepare:index",
     "build": "vite build",
     "preview": "vite preview"
   },
