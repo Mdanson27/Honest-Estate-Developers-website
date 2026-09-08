@@ -4571,3 +4571,7 @@ img {
   .account-property > div { width: 78px; height: 70px; }
   .account-roadmap { grid-template-columns: 1fr; }
 }
+
+
+/* Saved estate control positioning */
+.property-card { position: relative; }
