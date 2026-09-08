@@ -4,16 +4,18 @@
   --white: #ffffff;
   --paper: #f7f8fa;
   --paper-2: #f0f2f4;
-  --ink: #15181d;
-  --ink-2: #222933;
-  --muted: #66707d;
-  --line: #e2e5e9;
-  --yellow: #f3e929;
-  --yellow-soft: #fffbd1;
-  --red: #e9242b;
-  --blue: #1296cb;
-  --blue-dark: #096f9c;
-  --green: #1fa35b;
+  --ink: #14181d;
+  --ink-2: #262a2f;
+  --muted: #68717b;
+  --line: #e2e4e7;
+  --yellow: #f9d204;
+  --yellow-soft: #fff3a8;
+  --gold: #9a7208;
+  --gold-dark: #735506;
+  --red: #ed191b;
+  --blue: #0362b0;
+  --blue-dark: #044f8d;
+  --green: #1f9c5b;
   --shadow: 0 24px 70px rgba(15, 23, 42, 0.12);
   --radius: 18px;
   --radius-sm: 12px;
@@ -6319,5 +6321,363 @@ img {
   .property-way__card::before,
   .property-way__card::after {
     transition-duration: .01ms !important;
+  }
+}
+
+
+/* ======================================================================
+   HED OFFICIAL BRAND SYSTEM V5
+   Palette sampled from public/HED OFFICIAL LOGO.png
+   ====================================================================== */
+
+:root {
+  --hed-yellow: #f9d204;
+  --hed-red: #ed191b;
+  --hed-blue: #0362b0;
+  --hed-gold: #9a7208;
+  --hed-charcoal: #14181d;
+  --hed-white: #f0f0ef;
+}
+
+/* Use the official full logo as the primary brand mark everywhere. */
+.premium-brand {
+  min-width: 132px;
+}
+
+.premium-brand__logo {
+  width: 118px;
+  height: 66px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 8px;
+  background: var(--hed-yellow);
+  box-shadow: 0 7px 20px rgba(20,24,29,.08);
+}
+
+.premium-brand__logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.premium-brand > span:last-child {
+  display: none !important;
+}
+
+.brand {
+  min-width: 0;
+}
+
+.brand__logo-wrap {
+  width: 122px;
+  height: 70px;
+  padding: 0;
+  border: 0;
+  border-radius: 9px;
+  background: var(--hed-yellow);
+  box-shadow: 0 7px 20px rgba(20,24,29,.08);
+}
+
+.brand__logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform: none;
+}
+
+.brand__text {
+  display: none;
+}
+
+.brand--footer .brand__logo-wrap {
+  box-shadow: 0 10px 28px rgba(0,0,0,.24);
+}
+
+.callback-modal__brand img,
+.auth-card__brand img {
+  object-fit: contain;
+  background: var(--hed-yellow);
+  border-color: rgba(154,114,8,.22);
+}
+
+.callback-modal__brand img {
+  width: 78px;
+  height: 46px;
+}
+
+.auth-card__brand img {
+  width: 92px;
+  height: 54px;
+}
+
+/* Brand-consistent high-value actions and accents. */
+.btn--brand {
+  background: var(--hed-yellow);
+  border-color: #e5bd00;
+  color: var(--hed-charcoal);
+  box-shadow: 0 10px 28px rgba(249,210,4,.23);
+}
+
+.btn--brand:hover {
+  background: #ffdb0a;
+  box-shadow: 0 14px 34px rgba(249,210,4,.31);
+}
+
+.eyebrow,
+.text-link,
+.mega-feature > span,
+.property-card__location svg,
+.feature-list__check svg,
+.contact-info__cards svg,
+.account-overview-grid > button > svg:first-child,
+.account-stats svg {
+  color: var(--hed-blue);
+}
+
+.eyebrow::before,
+.footer__accent,
+.lead-cta::after,
+.callback-modal::before,
+.property-way__card::before,
+.property-way__progress button.active {
+  background: linear-gradient(
+    90deg,
+    var(--hed-red) 0 31%,
+    var(--hed-yellow) 31% 64%,
+    var(--hed-blue) 64% 100%
+  );
+}
+
+.site-header {
+  border-bottom-color: rgba(154,114,8,.12);
+}
+
+.premium-nav > button::after,
+.premium-nav > a::after {
+  background: var(--hed-blue);
+}
+
+.utility-bar--premium,
+.footer,
+.section--dark,
+.lead-cta,
+.location-band {
+  background-color: var(--hed-charcoal);
+}
+
+.hero h1 em,
+.footer__tagline,
+.values-grid svg,
+.account-roadmap svg {
+  color: var(--hed-yellow);
+}
+
+/* Rebuilt official-logo loader: components arrive independently, roof last,
+   then the exact PNG locks over the construction before the yellow gates open. */
+.exclusive-loader {
+  background: var(--hed-yellow) !important;
+  color: var(--hed-charcoal) !important;
+}
+
+.exclusive-loader__ambient {
+  background:
+    radial-gradient(circle at 50% 44%, rgba(255,255,255,.76) 0 10%, rgba(255,255,255,.26) 27%, transparent 53%),
+    radial-gradient(circle at 50% 50%, rgba(154,114,8,.08), transparent 66%),
+    linear-gradient(135deg, rgba(255,255,255,.18), transparent 42%),
+    var(--hed-yellow) !important;
+}
+
+.exclusive-loader__panel {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,0)),
+    var(--hed-yellow) !important;
+}
+
+.exclusive-loader__stage {
+  width: min(680px, calc(100% - 38px));
+  color: var(--hed-charcoal);
+}
+
+.hed-rebuild {
+  width: min(590px, 84vw);
+  aspect-ratio: 1.778 / 1;
+  filter: drop-shadow(0 25px 50px rgba(77,58,0,.14));
+}
+
+.hed-rebuild__pillar {
+  background: linear-gradient(90deg,#e8e8e7,#fff 52%,#d2d2d1);
+  border-color: rgba(20,24,29,.10);
+}
+
+.hed-rebuild__foot,
+.hed-rebuild__accent {
+  background: var(--hed-gold);
+}
+
+.hed-letter--h {
+  color: var(--hed-red);
+}
+
+.hed-letter--e {
+  color: var(--hed-gold);
+}
+
+.hed-letter--d {
+  color: var(--hed-blue);
+}
+
+.hed-rebuild__base,
+.hed-rebuild__roof {
+  background: var(--hed-charcoal);
+}
+
+.hed-rebuild__company {
+  color: var(--hed-charcoal);
+  text-shadow: 0 2px 5px rgba(20,24,29,.12);
+}
+
+.hed-rebuild__accent {
+  background: var(--hed-blue);
+}
+
+.hed-rebuild__official {
+  position: absolute;
+  inset: 0;
+  z-index: 18;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 6px;
+  opacity: 0;
+  transform: scale(.982);
+  filter: drop-shadow(0 18px 34px rgba(83,62,0,.13));
+  animation: hedOfficialLock .48s 2.58s cubic-bezier(.2,.8,.2,1) forwards;
+}
+
+.exclusive-loader--ready .hed-rebuild__official {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.exclusive-loader__copy {
+  color: var(--hed-charcoal);
+}
+
+.exclusive-loader__copy i {
+  background: var(--hed-gold);
+  opacity: .75;
+}
+
+.exclusive-loader__stage > small {
+  color: rgba(20,24,29,.62) !important;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .13em !important;
+}
+
+@keyframes hedOfficialLock {
+  0% {
+    opacity: 0;
+    transform: scale(.975);
+    filter: blur(5px) drop-shadow(0 18px 34px rgba(83,62,0,.10));
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0) drop-shadow(0 18px 34px rgba(83,62,0,.13));
+  }
+}
+
+/* Update remaining premium surfaces that had older cyan/yellow approximations. */
+.mega-feature {
+  background:
+    radial-gradient(circle at 90% 0%, rgba(3,98,176,.14), transparent 42%),
+    var(--paper);
+}
+
+.mega-feature--blue {
+  background:
+    radial-gradient(circle at 90% 0%, rgba(3,98,176,.20), transparent 46%),
+    #f4f8fb;
+}
+
+.mega-feature--yellow {
+  background:
+    radial-gradient(circle at 88% 0%, rgba(249,210,4,.36), transparent 42%),
+    #fffbed;
+}
+
+.property-way {
+  background:
+    radial-gradient(circle at 87% 4%, rgba(3,98,176,.07), transparent 28%),
+    linear-gradient(180deg, #fbfcfd 0%, #f7f7f5 100%);
+}
+
+.property-way__card.is-active {
+  border-color: var(--hed-charcoal) !important;
+  background:
+    radial-gradient(circle at 92% 8%, rgba(3,98,176,.14), transparent 34%),
+    linear-gradient(145deg, rgba(249,210,4,.08), transparent 55%),
+    var(--hed-charcoal) !important;
+}
+
+.property-way__card.is-active .property-way__card-top small {
+  background: rgba(249,210,4,.14);
+  color: var(--hed-yellow);
+}
+
+.property-way__card.is-active .property-way__card-action span,
+.property-way__card.is-active .property-way__card-action svg {
+  color: #77b7e6;
+}
+
+.account-hero {
+  background:
+    radial-gradient(circle at 90% 0%, rgba(3,98,176,.17), transparent 36%),
+    linear-gradient(145deg, rgba(249,210,4,.10), transparent 55%),
+    var(--hed-charcoal);
+}
+
+.hero-mode-action svg {
+  background: var(--hed-blue);
+}
+
+@media (max-width: 900px) {
+  .premium-brand__logo {
+    width: 96px;
+    height: 55px;
+  }
+
+  .site-header__inner {
+    min-height: 72px;
+  }
+}
+
+@media (max-width: 640px) {
+  .premium-brand {
+    max-width: calc(100% - 62px);
+  }
+
+  .premium-brand__logo {
+    width: 78px;
+    height: 45px;
+  }
+
+  .brand__logo-wrap {
+    width: 104px;
+    height: 60px;
+  }
+
+  .hed-rebuild {
+    width: min(500px, 94vw);
+  }
+
+  .exclusive-loader__stage {
+    width: calc(100% - 18px);
+  }
+
+  .exclusive-loader__copy {
+    margin-top: 14px;
   }
 }
