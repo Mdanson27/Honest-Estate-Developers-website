@@ -48,6 +48,18 @@ import {
   services,
   vision2030,
 } from "./data";
+import {
+  AccountDashboard,
+  CorridorShowcase,
+  ExclusiveLoader,
+  HeroExperience,
+  LoginDemo,
+  PremiumHeader,
+  PropertyWayStrip,
+  ReviewsShowcase,
+  SavePropertyButton,
+  SignupDemo,
+} from "./experience";
 
 const money = new Intl.NumberFormat("en-UG", {
   style: "currency",
@@ -255,7 +267,7 @@ function WhatsAppFloat() {
 function PageShell({ children }) {
   return (
     <>
-      <Header />
+      <PremiumHeader />
       <main>{children}</main>
       <Footer />
       <WhatsAppFloat />
@@ -359,6 +371,7 @@ function PropertyCard({ property }) {
   return (
     <article className="property-card">
       <Link className="property-card__image" to={`/properties/${property.slug}`}>
+        <SavePropertyButton slug={property.slug} className="save-property--card" />
         {property.image ? (
           <img src={property.image} alt={property.title} />
         ) : (
@@ -407,43 +420,10 @@ function PropertyCard({ property }) {
 
 function HomePage() {
   const featured = properties.filter((p) => p.featured).slice(0, 4);
-  const [heroImage] = useState(
-    "https://www.honestestatedevelopers.com/images/property/21025318020260608084742pm.jpg"
-  );
 
   return (
     <PageShell>
-      <section className="hero">
-        <div className="hero__media">
-          <img src={heroImage} alt="Honest Estate Developers property landscape" />
-        </div>
-        <div className="hero__overlay" />
-        <div className="shell hero__content">
-          <div className="hero__copy">
-            <span className="hero__kicker">
-              <span className="dot dot--red" />
-              Uganda real estate • Established {company.founded}
-            </span>
-            <h1>
-              Invest in property with <em>clarity.</em>
-            </h1>
-            <p>
-              Honest Estate Developers connects customers to land opportunities,
-              professional property services and structured investment pathways
-              across Uganda's key growth corridors.
-            </p>
-            <div className="hero__actions">
-              <Link className="btn btn--brand" to="/properties">
-                Explore properties
-                <ArrowRight size={18} />
-              </Link>
-              <Link className="btn btn--light" to="/contact">
-                Book a site visit
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroExperience />
 
       <div className="shell search-lift">
         <PropertySearch />
@@ -469,6 +449,8 @@ function HomePage() {
           </div>
         </div>
       </section>
+
+      <CorridorShowcase />
 
       <section className="section">
         <div className="shell">
@@ -523,6 +505,8 @@ function HomePage() {
           </div>
         </div>
       </section>
+
+      <PropertyWayStrip />
 
       <section className="section">
         <div className="shell split-feature">
@@ -646,6 +630,8 @@ function HomePage() {
         </div>
       </section>
 
+      <ReviewsShowcase />
+
       <LeadCta />
     </PageShell>
   );
@@ -706,18 +692,27 @@ function PropertiesPage() {
   const q = params.get("q") || "";
   const type = params.get("type") || "All";
   const district = params.get("district") || "All";
+  const corridor = params.get("corridor") || "All";
+  const min = Number(params.get("min") || 0);
   const max = Number(params.get("max") || 0);
+  const sort = params.get("sort") || "featured";
 
   const filtered = useMemo(() => {
-    return properties.filter((property) => {
+    const results = properties.filter((property) => {
       const haystack = `${property.title} ${property.location} ${property.corridor || ""} ${property.description}`.toLowerCase();
       if (q && !haystack.includes(q.toLowerCase())) return false;
       if (type !== "All" && property.type !== type) return false;
       if (district !== "All" && property.district !== district) return false;
+      if (corridor !== "All" && property.corridor !== corridor) return false;
+      if (min && property.price < min) return false;
       if (max && property.price > max) return false;
       return true;
     });
-  }, [q, type, district, max]);
+    if (sort === "price-asc") return [...results].sort((a, b) => a.price - b.price);
+    if (sort === "price-desc") return [...results].sort((a, b) => b.price - a.price);
+    if (sort === "name") return [...results].sort((a, b) => a.title.localeCompare(b.title));
+    return [...results].sort((a, b) => Number(b.featured) - Number(a.featured));
+  }, [q, type, district, corridor, min, max, sort]);
 
   const update = (key, value) => {
     const next = new URLSearchParams(params);
@@ -732,8 +727,8 @@ function PropertiesPage() {
     <PageShell>
       <PageHero
         eyebrow="Property catalogue"
-        title="Find land and homes with HED"
-        copy="Search current HED listings by keyword, type, district and budget."
+        title="Search HED estate opportunities"
+        copy="Filter the current corporate portfolio by location, corridor and budget, then sort the results to match your priorities."
       />
 
       <section className="section section--properties">
@@ -788,6 +783,34 @@ function PropertiesPage() {
               </label>
 
               <label>
+                Growth corridor
+                <div className="select-wrap select-wrap--light">
+                  <select value={corridor} onChange={(e) => update("corridor", e.target.value)}>
+                    <option>All</option>
+                    <option>Hoima Road</option>
+                    <option>Entebbe Road</option>
+                    <option>Namugongo Road</option>
+                    <option>Masaka Road</option>
+                  </select>
+                  <ChevronDown size={16} />
+                </div>
+              </label>
+
+              <label>
+                Minimum price
+                <div className="select-wrap select-wrap--light">
+                  <select value={min || ""} onChange={(e) => update("min", e.target.value)}>
+                    <option value="">No minimum</option>
+                    <option value="14000000">UGX 14M</option>
+                    <option value="20000000">UGX 20M</option>
+                    <option value="30000000">UGX 30M</option>
+                    <option value="40000000">UGX 40M</option>
+                  </select>
+                  <ChevronDown size={16} />
+                </div>
+              </label>
+
+              <label>
                 Maximum price
                 <div className="select-wrap select-wrap--light">
                   <select
@@ -796,9 +819,22 @@ function PropertiesPage() {
                   >
                     <option value="">Any budget</option>
                     <option value="20000000">UGX 20M</option>
+                    <option value="35000000">UGX 35M</option>
                     <option value="50000000">UGX 50M</option>
-                    <option value="100000000">UGX 100M</option>
-                    <option value="400000000">UGX 400M</option>
+                    <option value="70000000">UGX 70M</option>
+                  </select>
+                  <ChevronDown size={16} />
+                </div>
+              </label>
+
+              <label>
+                Sort results
+                <div className="select-wrap select-wrap--light">
+                  <select value={sort} onChange={(e) => update("sort", e.target.value)}>
+                    <option value="featured">Featured first</option>
+                    <option value="price-asc">Price: low to high</option>
+                    <option value="price-desc">Price: high to low</option>
+                    <option value="name">Estate name</option>
                   </select>
                   <ChevronDown size={16} />
                 </div>
@@ -892,7 +928,10 @@ function PropertyDetailsPage() {
             <span>Estate portfolio</span>
           </div>
           <div className="property-detail-hero__info">
-            <span className="eyebrow">{property.type} • {property.category}</span>
+            <div className="property-detail-actions-row">
+              <span className="eyebrow">{property.type} • {property.category}</span>
+              <SavePropertyButton slug={property.slug} className="save-property--detail" />
+            </div>
             <h1>{property.title}</h1>
             <div className="property-detail-hero__location">
               <MapPin size={17} />
@@ -1474,9 +1513,22 @@ function ContactPage() {
   );
 }
 
+function LoginPage() {
+  return <PageShell><LoginDemo /></PageShell>;
+}
+
+function SignupPage() {
+  return <PageShell><SignupDemo /></PageShell>;
+}
+
+function AccountPage() {
+  return <PageShell><AccountDashboard /></PageShell>;
+}
+
 export default function App() {
   return (
     <>
+      <ExclusiveLoader />
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -1487,6 +1539,9 @@ export default function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/insights" element={<InsightsPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/account" element={<AccountPage />} />
         <Route path="*" element={<HomePage />} />
       </Routes>
     </>
