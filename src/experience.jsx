@@ -505,10 +505,24 @@ export function HeroExperience() {
 }
 
 export function CorridorShowcase() {
+  const imageCorridors = useMemo(
+    () => CORRIDORS.filter((corridor) => Boolean(corridor.image)),
+    []
+  );
   const [offset, setOffset] = useState(0);
+
+  useEffect(() => {
+    if (imageCorridors.length < 2) return undefined;
+    const timer = window.setInterval(
+      () => setOffset((current) => (current + 1) % imageCorridors.length),
+      5200
+    );
+    return () => window.clearInterval(timer);
+  }, [imageCorridors.length]);
+
   const ordered = useMemo(
-    () => [...CORRIDORS.slice(offset), ...CORRIDORS.slice(0, offset)],
-    [offset]
+    () => [...imageCorridors.slice(offset), ...imageCorridors.slice(0, offset)],
+    [offset, imageCorridors]
   );
 
   return (
@@ -521,8 +535,8 @@ export function CorridorShowcase() {
             <p>Use HED's current estate portfolio to move from broad interest to a focused corridor and budget.</p>
           </div>
           <div className="corridor-arrows">
-            <button onClick={() => setOffset((offset - 1 + CORRIDORS.length) % CORRIDORS.length)}><ArrowLeft size={18} /></button>
-            <button onClick={() => setOffset((offset + 1) % CORRIDORS.length)}><ArrowRight size={18} /></button>
+            <button onClick={() => setOffset((offset - 1 + imageCorridors.length) % imageCorridors.length)}><ArrowLeft size={18} /></button>
+            <button onClick={() => setOffset((offset + 1) % imageCorridors.length)}><ArrowRight size={18} /></button>
           </div>
         </div>
         <div className="corridor-grid">
@@ -577,6 +591,15 @@ export function PropertyWayStrip() {
 
 export function ReviewsShowcase() {
   const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = window.setInterval(
+      () => setIndex((current) => (current + 1) % DEMO_STORIES.length),
+      6800
+    );
+    return () => window.clearInterval(timer);
+  }, []);
+
   const visible = [0, 1, 2, 3].map((i) => DEMO_STORIES[(index + i) % DEMO_STORIES.length]);
 
   return (
