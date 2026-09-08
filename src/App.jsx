@@ -38,9 +38,15 @@ import {
 import {
   company,
   companyProfile,
+  corporateStandards,
+  customerJourney,
   insights,
+  investmentPrograms,
+  partnerships,
+  portfolioDisclaimer,
   properties,
   services,
+  vision2030,
 } from "./data";
 
 const money = new Intl.NumberFormat("en-UG", {
@@ -76,6 +82,7 @@ function Header() {
   const nav = [
     ["Properties", "/properties"],
     ["Services", "/services"],
+    ["Programmes", "/programmes"],
     ["About", "/about"],
     ["Insights", "/insights"],
     ["Contact", "/contact"],
@@ -180,8 +187,8 @@ function Footer() {
         <div>
           <Brand footer />
           <p className="footer__summary">
-            Genuine land, quality homes and trusted property services built around
-            transparency, practical guidance and long-term value.
+            A Ugandan real estate company established in 2007, combining property
+            opportunities with professional support across the customer journey.
           </p>
           <div className="footer__tagline">{company.tagline}</div>
         </div>
@@ -190,6 +197,7 @@ function Footer() {
           <h4>Explore</h4>
           <Link to="/properties">Properties</Link>
           <Link to="/services">Services</Link>
+          <Link to="/programmes">Investment programmes</Link>
           <Link to="/about">About HED</Link>
           <Link to="/insights">Insights</Link>
         </div>
@@ -211,7 +219,11 @@ function Footer() {
           <a href={`tel:${company.phoneSecondary.replace(/\s/g, "")}`}>
             {company.phoneSecondary}
           </a>
+          <a href={`tel:${company.phoneTertiary.replace(/\s/g, "")}`}>
+            {company.phoneTertiary}
+          </a>
           <a href={`mailto:${company.email}`}>{company.email}</a>
+          <a href={company.websiteUrl} target="_blank" rel="noreferrer">{company.website}</a>
           <span>{company.address}</span>
         </div>
       </div>
@@ -283,7 +295,7 @@ function PropertySearch({ compact = false }) {
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Area, estate or property"
+            placeholder="Estate, corridor or location"
           />
         </div>
       </label>
@@ -293,7 +305,6 @@ function PropertySearch({ compact = false }) {
           <select value={type} onChange={(e) => setType(e.target.value)}>
             <option>All</option>
             <option>Land</option>
-            <option>House</option>
           </select>
           <ChevronDown size={16} />
         </div>
@@ -348,8 +359,15 @@ function PropertyCard({ property }) {
   return (
     <article className="property-card">
       <Link className="property-card__image" to={`/properties/${property.slug}`}>
-        <img src={property.image} alt={property.title} />
-        <span className="property-card__status">{property.status}</span>
+        {property.image ? (
+          <img src={property.image} alt={property.title} />
+        ) : (
+          <div className="property-card__placeholder">
+            <span>{property.corridor}</span>
+            <strong>{property.title}</strong>
+          </div>
+        )}
+        <span className="property-card__status">Estate</span>
         <span className="property-card__type">{property.type}</span>
       </Link>
       <div className="property-card__body">
@@ -375,7 +393,8 @@ function PropertyCard({ property }) {
               {property.bathrooms} baths
             </span>
           )}
-          <span>{property.tenure}</span>
+          {property.tenure && <span>{property.tenure}</span>}
+          {property.corridor && <span>{property.corridor}</span>}
         </div>
       </div>
       <Link className="property-card__footer" to={`/properties/${property.slug}`}>
@@ -403,14 +422,15 @@ function HomePage() {
           <div className="hero__copy">
             <span className="hero__kicker">
               <span className="dot dot--red" />
-              Established in Uganda since {company.founded}
+              Uganda real estate • Established {company.founded}
             </span>
             <h1>
-              Property decisions built on <em>honesty.</em>
+              Invest in property with <em>clarity.</em>
             </h1>
             <p>
-              Genuine land, quality homes and professional property services for
-              buyers, families and investors across Uganda.
+              Honest Estate Developers connects customers to land opportunities,
+              professional property services and structured investment pathways
+              across Uganda's key growth corridors.
             </p>
             <div className="hero__actions">
               <Link className="btn btn--brand" to="/properties">
@@ -433,19 +453,19 @@ function HomePage() {
         <div className="shell trust-strip__grid">
           <div>
             <strong>{company.founded}</strong>
-            <span>Established</span>
+            <span>Established in Uganda</span>
           </div>
           <div>
-            <strong>15+</strong>
-            <span>Years of market experience</span>
+            <strong>{properties.length}</strong>
+            <span>Estates in the current corporate portfolio</span>
           </div>
           <div>
-            <strong>Free</strong>
-            <span>Site inspections promoted by HED</span>
+            <strong>{services.length}</strong>
+            <span>Integrated property service lines</span>
           </div>
           <div>
-            <strong>Flexible</strong>
-            <span>Payment planning</span>
+            <strong>{investmentPrograms.length}</strong>
+            <span>Structured investment & engagement programmes</span>
           </div>
         </div>
       </section>
@@ -453,9 +473,9 @@ function HomePage() {
       <section className="section">
         <div className="shell">
           <SectionIntro
-            eyebrow="Selected opportunities"
-            title="Featured properties"
-            copy="A focused selection of land and homes currently listed by Honest Estate Developers."
+            eyebrow="Current estate portfolio"
+            title="Selected HED opportunities"
+            copy="A corporate-profile view of selected estates across HED's current growth corridors. Prices and availability should always be reconfirmed before commitment."
             action={
               <Link className="text-link" to="/properties">
                 View all properties <ArrowRight size={17} />
@@ -466,6 +486,10 @@ function HomePage() {
             {featured.map((property) => (
               <PropertyCard key={property.slug} property={property} />
             ))}
+          </div>
+          <div className="portfolio-note">
+            <ShieldCheck size={17} />
+            <span>{portfolioDisclaimer}</span>
           </div>
         </div>
       </section>
@@ -479,7 +503,7 @@ function HomePage() {
           />
           <div className="service-grid">
             {services.map((service, index) => {
-              const icons = [Hammer, Landmark, TreePine, FileCheck2];
+              const icons = [TreePine, Headphones, Hammer, Landmark, FileCheck2, Building2];
               const Icon = icons[index];
               return (
                 <article className="service-card" key={service.id}>
@@ -548,12 +572,12 @@ function HomePage() {
         <div className="shell">
           <SectionIntro
             eyebrow="Where we are active"
-            title="Property opportunities across key growth corridors"
-            copy="Current listings span Mpigi, Wakiso, Namugongo, Kiwenda, Kasengejje, Gobero, Magogo and the Entebbe corridor."
+            title="A portfolio organised around Uganda's growth corridors"
+            copy="HED's corporate profile currently groups its marketed estate portfolio across Hoima Road, Entebbe Road, Namugongo Road and Masaka Road."
             dark
           />
           <div className="location-chips">
-            {["Mpigi", "Wakiso", "Namugongo", "Kiwenda", "Kasengejje", "Gobero", "Magogo", "Entebbe Sisa"].map(
+            {["Hoima Road", "Entebbe Road", "Namugongo Road", "Masaka Road"].map(
               (location) => (
                 <Link key={location} to={`/properties?q=${encodeURIComponent(location)}`}>
                   <MapPin size={16} />
@@ -562,6 +586,31 @@ function HomePage() {
                 </Link>
               )
             )}
+          </div>
+        </div>
+      </section>
+
+      <section className="section section--soft">
+        <div className="shell">
+          <SectionIntro
+            eyebrow="Structured ownership pathways"
+            title="Investment programmes designed around real customer needs"
+            copy="HED's corporate profile outlines programmes for individual buyers, SACCOs and Ugandans in the diaspora."
+            action={
+              <Link className="text-link" to="/programmes">
+                Explore programmes <ArrowRight size={17} />
+              </Link>
+            }
+          />
+          <div className="programmes-preview">
+            {investmentPrograms.map((program) => (
+              <article key={program.id}>
+                <span>{program.acronym}</span>
+                <h3>{program.name}</h3>
+                <small>{program.audience}</small>
+                <p>{program.description}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>
@@ -661,7 +710,7 @@ function PropertiesPage() {
 
   const filtered = useMemo(() => {
     return properties.filter((property) => {
-      const haystack = `${property.title} ${property.location} ${property.description}`.toLowerCase();
+      const haystack = `${property.title} ${property.location} ${property.corridor || ""} ${property.description}`.toLowerCase();
       if (q && !haystack.includes(q.toLowerCase())) return false;
       if (type !== "All" && property.type !== type) return false;
       if (district !== "All" && property.district !== district) return false;
@@ -717,7 +766,6 @@ function PropertiesPage() {
                   <select value={type} onChange={(e) => update("type", e.target.value)}>
                     <option>All</option>
                     <option>Land</option>
-                    <option>House</option>
                   </select>
                   <ChevronDown size={16} />
                 </div>
@@ -771,7 +819,7 @@ function PropertiesPage() {
                   <strong>{filtered.length}</strong>
                   <span>{filtered.length === 1 ? "property" : "properties"} found</span>
                 </div>
-                <span>Prices shown in UGX</span>
+                <span>Corporate-profile pricing • reconfirm with HED</span>
               </div>
               {filtered.length ? (
                 <div className="property-grid property-grid--catalogue">
@@ -833,8 +881,15 @@ function PropertyDetailsPage() {
         </div>
         <div className="shell property-detail-hero__grid">
           <div className="property-detail-hero__image">
-            <img src={property.image} alt={property.title} />
-            <span>{property.status}</span>
+            {property.image ? (
+              <img src={property.image} alt={property.title} />
+            ) : (
+              <div className="property-detail-hero__placeholder">
+                <span>{property.corridor}</span>
+                <strong>{property.title}</strong>
+              </div>
+            )}
+            <span>Estate portfolio</span>
           </div>
           <div className="property-detail-hero__info">
             <span className="eyebrow">{property.type} • {property.category}</span>
@@ -845,7 +900,8 @@ function PropertyDetailsPage() {
             </div>
             <div className="property-detail-hero__price">{property.displayPrice}</div>
             <div className="detail-pills">
-              <span>{property.tenure}</span>
+              {property.tenure && <span>{property.tenure}</span>}
+              {property.corridor && <span>{property.corridor}</span>}
               {property.plotSize && <span>{property.plotSize}</span>}
               {property.bedrooms && <span>{property.bedrooms} bedrooms</span>}
               {property.bathrooms && <span>{property.bathrooms} bathrooms</span>}
@@ -889,8 +945,8 @@ function PropertyDetailsPage() {
             <div className="spec-table">
               <div><span>Property type</span><strong>{property.type}</strong></div>
               <div><span>Category</span><strong>{property.category}</strong></div>
-              <div><span>Tenure</span><strong>{property.tenure}</strong></div>
-              <div><span>Status</span><strong>{property.status}</strong></div>
+              <div><span>Growth corridor</span><strong>{property.corridor}</strong></div>
+              <div><span>Status</span><strong>Corporate portfolio</strong></div>
             </div>
           </article>
 
@@ -928,14 +984,14 @@ function PropertyDetailsPage() {
 }
 
 function ServicesPage() {
-  const icons = [Hammer, Landmark, TreePine, FileCheck2];
+  const icons = [TreePine, Headphones, Hammer, Landmark, FileCheck2, Building2];
 
   return (
     <PageShell>
       <PageHero
         eyebrow="Our services"
         title="Property support from land to development"
-        copy="A focused real estate service offering built around acquisition, documentation, surveying and construction."
+        copy="Six connected service lines designed to support customers from property identification and advisory through documentation, development and ongoing property management."
       />
 
       <section className="section">
@@ -969,17 +1025,12 @@ function ServicesPage() {
             title="From interest to informed ownership"
             copy="The redesigned site turns HED's current services into a clear customer journey."
           />
-          <div className="process__grid">
-            {[
-              ["01", "Discover", "Browse current land and home opportunities by area, property type and budget."],
-              ["02", "Inspect", "Request a site visit and speak directly with HED about the location and availability."],
-              ["03", "Verify", "Confirm property details, documentation and title information before committing."],
-              ["04", "Proceed", "Agree payment terms and complete the transaction with clear next steps."],
-            ].map(([n, title, text]) => (
-              <div key={n}>
-                <span>{n}</span>
-                <h3>{title}</h3>
-                <p>{text}</p>
+          <div className="process__grid process__grid--six">
+            {customerJourney.map((item) => (
+              <div key={item.step}>
+                <span>{item.step}</span>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
               </div>
             ))}
           </div>
@@ -1008,10 +1059,11 @@ function AboutPage() {
         <div className="shell about-story">
           <div>
             <span className="eyebrow">Who we are</span>
-            <h2>Built around a simple promise: be honest with the customer.</h2>
+            <h2>Growing from a traditional real estate business into an integrated property company.</h2>
           </div>
           <div>
-            <p>{companyProfile.intro}</p>
+            <p>{companyProfile.story}</p>
+            <p className="about-story__history">{companyProfile.officeHistory}</p>
             <blockquote>
               “{companyProfile.vision}”
               <span>HED Vision</span>
@@ -1030,10 +1082,45 @@ function AboutPage() {
           />
           <div className="values-grid">
             {companyProfile.values.map((value, index) => (
-              <article key={value}>
+              <article key={value.title}>
                 <span>0{index + 1}</span>
                 <Sparkles size={21} />
-                <p>{value}</p>
+                <h3>{value.title}</h3>
+                <p>{value.text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="shell corporate-direction">
+          <SectionIntro
+            eyebrow="Vision, mission & purpose"
+            title="A clear corporate direction"
+            copy={companyProfile.strategicDirection}
+          />
+          <div className="direction-grid">
+            <article><span>Vision</span><p>{companyProfile.vision}</p></article>
+            <article><span>Mission</span><p>{companyProfile.mission}</p></article>
+            <article><span>Purpose</span><p>{companyProfile.purpose}</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section className="section section--soft">
+        <div className="shell">
+          <SectionIntro
+            eyebrow="HED Vision 2030"
+            title="Building a more professional and scalable real estate platform"
+            copy={companyProfile.longTermAmbition}
+          />
+          <div className="vision-grid">
+            {vision2030.map((pillar, index) => (
+              <article key={pillar.title}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <h3>{pillar.title}</h3>
+                <p>{pillar.text}</p>
               </article>
             ))}
           </div>
@@ -1057,7 +1144,7 @@ function AboutPage() {
       <section className="section section--soft">
         <div className="shell">
           <SectionIntro eyebrow="Why work with HED" title="Practical reasons customers can understand" />
-          <div className="reason-grid">
+          <div className="reason-grid reason-grid--seven">
             {companyProfile.reasons.map((reason) => (
               <article key={reason.title}>
                 <ShieldCheck size={21} />
@@ -1068,6 +1155,109 @@ function AboutPage() {
           </div>
         </div>
       </section>
+
+      <section className="section">
+        <div className="shell">
+          <SectionIntro
+            eyebrow="Institutional engagement"
+            title="Partnerships that can expand access to property"
+            copy="HED's growth strategy includes collaboration with institutions whose networks and capabilities can strengthen customer outcomes."
+          />
+          <div className="partnership-grid">
+            {partnerships.map((item) => (
+              <article key={item.title}>
+                <HandshakeMark />
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </article>
+            ))}
+          </div>
+          <p className="partnership-philosophy">
+            HED seeks partnerships that create measurable value for customers, institutions and the wider property ecosystem while maintaining transparency, professional conduct and clear responsibilities.
+          </p>
+        </div>
+      </section>
+
+      <section className="section section--dark">
+        <div className="shell">
+          <SectionIntro
+            eyebrow="Professional standards"
+            title="How HED intends to communicate and serve"
+            copy="The corporate profile sets a clear standard for information, documentation, branding, responsiveness and transparency."
+            dark
+          />
+          <div className="standards-grid">
+            {corporateStandards.map((standard, index) => (
+              <div key={standard}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <p>{standard}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <LeadCta />
+    </PageShell>
+  );
+}
+
+function HandshakeMark() {
+  return (
+    <div className="partnership-mark" aria-hidden="true">
+      <ShieldCheck size={20} />
+    </div>
+  );
+}
+
+function ProgrammesPage() {
+  return (
+    <PageShell>
+      <PageHero
+        eyebrow="Investment & customer engagement"
+        title="Structured pathways toward property ownership"
+        copy="HED's corporate profile outlines programmes for individuals, SACCO members and Ugandans in the diaspora, supported by education, property opportunities and guided customer engagement."
+      />
+
+      <section className="section">
+        <div className="shell programmes-page">
+          {investmentPrograms.map((program, index) => (
+            <article className="programme-feature" key={program.id}>
+              <div className="programme-feature__label">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <strong>{program.acronym}</strong>
+              </div>
+              <div>
+                <small>{program.audience}</small>
+                <h2>{program.name}</h2>
+                <p>{program.description}</p>
+                <Link className="text-link" to="/contact">
+                  Discuss this programme <ArrowRight size={17} />
+                </Link>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="section section--soft">
+        <div className="shell">
+          <SectionIntro
+            eyebrow="Diaspora engagement"
+            title="Property access that can work across borders"
+            copy="HED's diaspora focus is intended to make investment more accessible through structured information, remote engagement, site-inspection support, documentation guidance and investment programmes."
+          />
+          <div className="diaspora-callout">
+            <div>
+              <span>HED engagement message</span>
+              <h3>Visit Uganda. Experience Uganda. Invest in Uganda.</h3>
+            </div>
+            <Link className="btn btn--dark" to="/contact">
+              Contact HED <ArrowRight size={17} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <LeadCta />
     </PageShell>
   );
@@ -1144,8 +1334,8 @@ function ContactPage() {
             <span className="eyebrow">Get in touch</span>
             <h2>Speak directly with Honest Estate Developers</h2>
             <p>
-              HED's current public contact details are shown below. Confirm any
-              meeting or site visit directly with the company.
+              Use the corporate contact details below for property enquiries,
+              partnership discussions, site inspections and professional services.
             </p>
 
             <div className="contact-info__cards">
@@ -1155,6 +1345,7 @@ function ContactPage() {
                   <small>Phone</small>
                   <strong>{company.phonePrimary}</strong>
                   <strong>{company.phoneSecondary}</strong>
+                  <strong>{company.phoneTertiary}</strong>
                 </span>
               </a>
               <a href={`mailto:${company.email}`}>
@@ -1162,6 +1353,13 @@ function ContactPage() {
                 <span>
                   <small>Email</small>
                   <strong>{company.email}</strong>
+                </span>
+              </a>
+              <a href={company.websiteUrl} target="_blank" rel="noreferrer">
+                <SquareArrowOutUpRight size={20} />
+                <span>
+                  <small>Corporate website</small>
+                  <strong>{company.website}</strong>
                 </span>
               </a>
               <div>
@@ -1222,9 +1420,13 @@ function ContactPage() {
                 >
                   <option>Property inquiry</option>
                   <option>Site inspection</option>
+                  <option>Investment programme</option>
+                  <option>Real estate consulting</option>
                   <option>Land documentation</option>
                   <option>Surveying</option>
                   <option>Construction & development</option>
+                  <option>Property management & maintenance</option>
+                  <option>Institutional partnership</option>
                 </select>
               </label>
             </div>
@@ -1243,8 +1445,7 @@ function ContactPage() {
               <ArrowRight size={17} />
             </button>
             <small>
-              This prototype opens your default email application. A production
-              backend/CRM connection can be added during system integration.
+              Your enquiry is prepared for HED's corporate email address so the company can respond directly.
             </small>
           </form>
         </div>
@@ -1282,6 +1483,7 @@ export default function App() {
         <Route path="/properties" element={<PropertiesPage />} />
         <Route path="/properties/:slug" element={<PropertyDetailsPage />} />
         <Route path="/services" element={<ServicesPage />} />
+        <Route path="/programmes" element={<ProgrammesPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/insights" element={<InsightsPage />} />
         <Route path="/contact" element={<ContactPage />} />
