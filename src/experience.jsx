@@ -59,7 +59,7 @@ const HERO_SLIDES = [
   },
   {
     image:
-      "https://www.honestestatedevelopers.com/images/property/150364507020231024110434am.jpg",
+      "https://www.honestestatedevelopers.com/images/property/150364507020231006041201pm.jpg",
     kicker: "Entebbe Road • Investment access",
     title: "Build toward your",
     emphasis: "next move.",
