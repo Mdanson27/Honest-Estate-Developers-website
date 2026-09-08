@@ -48,10 +48,10 @@ jobs:
           rm -rf assets
           cp -R dist/assets ./assets
           cp dist/index.html ./index.html
-          cp dist/hed-logo.jpg ./hed-logo.jpg
+          cp "dist/HED OFFICIAL LOGO.png" "./HED OFFICIAL LOGO.png"
           touch .nojekyll
 
-          git add index.html assets hed-logo.jpg .nojekyll
+          git add index.html assets "HED OFFICIAL LOGO.png" .nojekyll
 
           if git diff --cached --quiet; then
             echo "Production bundle is already current."
