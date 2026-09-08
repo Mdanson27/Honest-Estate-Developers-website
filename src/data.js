@@ -20,7 +20,7 @@ export const company = {
   hours: "Mon - Sat: 8:00am - 6:00pm",
   address:
     "Martin Road, Mankeshwar Building, near Aga Khan Roundabout, Kampala, Uganda",
-  logo: `${baseUrl}hed-logo.jpg`,
+  logo: `${baseUrl}HED%20OFFICIAL%20LOGO.png`,
 };
 
 export const services = [
