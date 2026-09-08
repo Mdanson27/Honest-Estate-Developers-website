@@ -278,7 +278,7 @@ function PageShell({ children }) {
 function PropertySearch({ compact = false }) {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
-  const [type, setType] = useState("All");
+  const [corridor, setCorridor] = useState("All");
   const [district, setDistrict] = useState("All");
   const [maxPrice, setMaxPrice] = useState("");
 
@@ -286,7 +286,7 @@ function PropertySearch({ compact = false }) {
     e.preventDefault();
     const params = new URLSearchParams();
     if (query.trim()) params.set("q", query.trim());
-    if (type !== "All") params.set("type", type);
+    if (corridor !== "All") params.set("corridor", corridor);
     if (district !== "All") params.set("district", district);
     if (maxPrice) params.set("max", maxPrice);
     navigate(`/properties?${params.toString()}`);
@@ -312,11 +312,14 @@ function PropertySearch({ compact = false }) {
         </div>
       </label>
       <label>
-        <span>Property type</span>
+        <span>Growth corridor</span>
         <div className="select-wrap">
-          <select value={type} onChange={(e) => setType(e.target.value)}>
+          <select value={corridor} onChange={(e) => setCorridor(e.target.value)}>
             <option>All</option>
-            <option>Land</option>
+            <option>Hoima Road</option>
+            <option>Entebbe Road</option>
+            <option>Namugongo Road</option>
+            <option>Masaka Road</option>
           </select>
           <ChevronDown size={16} />
         </div>
@@ -370,8 +373,8 @@ function SectionIntro({ eyebrow, title, copy, action, dark = false }) {
 function PropertyCard({ property }) {
   return (
     <article className="property-card">
+      <SavePropertyButton slug={property.slug} className="save-property--card" />
       <Link className="property-card__image" to={`/properties/${property.slug}`}>
-        <SavePropertyButton slug={property.slug} className="save-property--card" />
         {property.image ? (
           <img src={property.image} alt={property.title} />
         ) : (
