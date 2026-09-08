@@ -70,7 +70,9 @@ const money = new Intl.NumberFormat("en-UG", {
 function ScrollToTop() {
   const location = useLocation();
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    // Route changes should always start at the beginning of the page.
+    // Instant positioning avoids mobile browsers restoring a previous mid-page position.
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }, [location.pathname, location.search]);
   return null;
 }
