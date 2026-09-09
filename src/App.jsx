@@ -61,6 +61,7 @@ import {
   SavePropertyButton,
   SignupDemo,
 } from "./experience";
+import { SocialLinks } from "./social-icons";
 
 const money = new Intl.NumberFormat("en-UG", {
   style: "currency",
@@ -239,6 +240,7 @@ function Footer() {
           </a>
           <a href={`mailto:${company.email}`}>{company.email}</a>
           <a href={company.websiteUrl} target="_blank" rel="noreferrer">{company.website}</a>
+          <SocialLinks company={company} className="brand-socials--footer" showLabels />
           <span>{company.address}</span>
         </div>
       </div>
@@ -1632,6 +1634,16 @@ function ContactPage() {
                 <span>
                   <small>Office hours</small>
                   <strong>{company.hours}</strong>
+                </span>
+              </div>
+              <div className="contact-social-card">
+                <span className="contact-social-card__icon">
+                  <SquareArrowOutUpRight size={20} />
+                </span>
+                <span>
+                  <small>Follow HED</small>
+                  <strong>Official social media</strong>
+                  <SocialLinks company={company} className="brand-socials--contact" showLabels />
                 </span>
               </div>
             </div>
