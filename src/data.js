@@ -11,6 +11,8 @@ export const company = {
   websiteUrl: "https://www.hed.co.ug",
   facebook: "www.facebook.com/honestestates",
   facebookUrl: "https://www.facebook.com/honestestates",
+  linkedinUrl: "https://www.linkedin.com/in/honest-estate-developers-746946273/",
+  xUrl: "https://x.com/estate_honest",
   email: "hedevelopers20@gmail.com",
   phonePrimary: "+256 750 791591",
   phoneSecondary: "+256 772 572873",
