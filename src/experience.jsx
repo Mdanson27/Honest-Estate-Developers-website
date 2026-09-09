@@ -372,7 +372,7 @@ export function PremiumHeader() {
           <div className="utility-bar__group">
             <a href={`tel:${company.phonePrimary.replace(/\s/g, "")}`}><Phone size={13} /> {company.phonePrimary}</a>
             <a className="desktop-only" href={`mailto:${company.email}`}><Mail size={13} /> {company.email}</a>
-            <SocialLinks company={company} className="brand-socials--utility desktop-only" />
+            <SocialLinks company={company} className="brand-socials--utility" />
           </div>
           <div className="utility-actions">
             <button onClick={() => setCallback(true)}>Request a callback</button>
