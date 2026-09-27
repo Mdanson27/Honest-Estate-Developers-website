@@ -1,5 +1,7 @@
 import { properties } from "./data";
 
+const baseUrl = import.meta.env.BASE_URL;
+
 export const criticalImageUrls = Array.from(
   new Set(properties.map((property) => property.image).filter(Boolean))
 );
