@@ -43,6 +43,8 @@ import {
 import { SocialLinks } from "./social-icons";
 import { preloadCriticalImages, preloadDeferredImages } from "./image-preload";
 
+const baseUrl = import.meta.env.BASE_URL;
+
 const propertyImage = (slug) =>
   properties.find((property) => property.slug === slug)?.image || null;
 
