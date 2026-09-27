@@ -134,7 +134,7 @@ export const properties = [
     14000000,
     "UGX 14M / 16M / 18M",
     "Affordable residential plots with access to infrastructure and nearby development.",
-    "https://honestestatedevelopers.com/images/property/119185025120230921022129pm.jpg",
+    "https://www.honestestatedevelopers.com/images/property/119185025120230921022129pm.jpg",
     true
   ),
   estate(
