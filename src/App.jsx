@@ -390,7 +390,13 @@ function PropertyCard({ property }) {
       <SavePropertyButton slug={property.slug} className="save-property--card" />
       <Link className="property-card__image" to={`/properties/${property.slug}`}>
         {property.image ? (
-          <img src={property.image} alt={property.title} />
+          <img
+            src={property.image}
+            alt={property.title}
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+          />
         ) : (
           <div className="property-card__placeholder">
             <span>{property.corridor}</span>
@@ -482,7 +488,13 @@ function LatestFromHed() {
                 className="latest-property-row"
               >
                 <div className="latest-property-row__image">
-                  <img src={property.image} alt={property.title} />
+                  <img
+            src={property.image}
+            alt={property.title}
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+          />
                   <span>{String(index + 1).padStart(2, "0")}</span>
                 </div>
                 <div className="latest-property-row__copy">
@@ -1139,7 +1151,13 @@ function PropertyDetailsPage() {
         <div className="shell property-detail-hero__grid">
           <div className="property-detail-hero__image">
             {property.image ? (
-              <img src={property.image} alt={property.title} />
+              <img
+            src={property.image}
+            alt={property.title}
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+          />
             ) : (
               <div className="property-detail-hero__placeholder">
                 <span>{property.corridor}</span>
