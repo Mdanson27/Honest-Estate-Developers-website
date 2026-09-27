@@ -41,7 +41,7 @@ import {
   services,
 } from "./data";
 import { SocialLinks } from "./social-icons";
-import { preloadCriticalImages } from "./image-preload";
+import { preloadCriticalImages, preloadDeferredImages } from "./image-preload";
 
 const HERO_SLIDES = [
   {
@@ -186,7 +186,10 @@ export function ExclusiveLoader() {
       setPhase("opening");
       await delay(finishDelay);
 
-      if (!cancelled) setPhase("done");
+      if (!cancelled) {
+        setPhase("done");
+        preloadDeferredImages();
+      }
     })();
 
     return () => {
@@ -489,9 +492,9 @@ export function HeroExperience() {
             src={item.image}
             alt=""
             aria-hidden={i !== index}
-            loading="eager"
+            loading={i === index ? "eager" : "lazy"}
             decoding="async"
-            fetchPriority={i < 2 ? "high" : "auto"}
+            fetchPriority={i === index ? "high" : "auto"}
           />
         ))}
       </div>
@@ -578,9 +581,9 @@ export function CorridorShowcase() {
               <img
                 src={corridor.image}
                 alt=""
-                loading="eager"
+                loading="lazy"
                 decoding="async"
-                fetchPriority="high"
+                fetchPriority="auto"
               />
               <div className="corridor-card__shade" />
               <div className="corridor-card__copy">
