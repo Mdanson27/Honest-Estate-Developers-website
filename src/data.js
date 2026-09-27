@@ -1,4 +1,5 @@
 const baseUrl = import.meta.env.BASE_URL;
+const propertyImage = (filename) => `${baseUrl}property-images/${filename}`;
 
 export const company = {
   name: "Honest Estate Developers Ltd",
