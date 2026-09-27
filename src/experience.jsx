@@ -41,6 +41,7 @@ import {
   services,
 } from "./data";
 import { SocialLinks } from "./social-icons";
+import { preloadCriticalImages } from "./image-preload";
 
 const HERO_SLIDES = [
   {
@@ -95,7 +96,7 @@ const CORRIDORS = [
     subtitle: "Affordable estate opportunities",
     query: "/properties?corridor=Hoima%20Road",
     image:
-      "https://honestestatedevelopers.com/images/property/119185025120230921022129pm.jpg",
+      "https://www.honestestatedevelopers.com/images/property/119185025120230921022129pm.jpg",
   },
   {
     name: "Entebbe Road",
@@ -159,21 +160,38 @@ export function ExclusiveLoader() {
   const [phase, setPhase] = useState("building");
 
   useEffect(() => {
+    let cancelled = false;
     const reduced =
       window.matchMedia &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const readyAt = reduced ? 420 : 3180;
-    const openAt = reduced ? 650 : 3650;
-    const doneAt = reduced ? 900 : 4430;
 
-    const ready = window.setTimeout(() => setPhase("ready"), readyAt);
-    const open = window.setTimeout(() => setPhase("opening"), openAt);
-    const done = window.setTimeout(() => setPhase("done"), doneAt);
+    const readyAt = reduced ? 420 : 3180;
+    const minimumOpenAt = reduced ? 650 : 3650;
+    const finishDelay = reduced ? 250 : 780;
+
+    const delay = (ms) =>
+      new Promise((resolve) => window.setTimeout(resolve, ms));
+
+    const readyTimer = window.setTimeout(() => {
+      if (!cancelled) setPhase("ready");
+    }, readyAt);
+
+    (async () => {
+      await Promise.all([
+        delay(minimumOpenAt),
+        preloadCriticalImages(reduced ? 900 : 5200),
+      ]);
+
+      if (cancelled) return;
+      setPhase("opening");
+      await delay(finishDelay);
+
+      if (!cancelled) setPhase("done");
+    })();
 
     return () => {
-      window.clearTimeout(ready);
-      window.clearTimeout(open);
-      window.clearTimeout(done);
+      cancelled = true;
+      window.clearTimeout(readyTimer);
     };
   }, []);
 
@@ -465,7 +483,16 @@ export function HeroExperience() {
     <section className="hero hero--experience">
       <div className="hero__media hero__media--slides">
         {HERO_SLIDES.map((item, i) => (
-          <img key={item.image} className={i === index ? "active" : ""} src={item.image} alt="" aria-hidden={i !== index} />
+          <img
+            key={item.image}
+            className={i === index ? "active" : ""}
+            src={item.image}
+            alt=""
+            aria-hidden={i !== index}
+            loading="eager"
+            decoding="async"
+            fetchPriority={i < 2 ? "high" : "auto"}
+          />
         ))}
       </div>
       <div className="hero__overlay" />
@@ -548,7 +575,13 @@ export function CorridorShowcase() {
         <div className="corridor-grid">
           {ordered.slice(0, 3).map((corridor) => (
             <Link className="corridor-card" key={corridor.name} to={corridor.query}>
-              <img src={corridor.image} alt="" />
+              <img
+                src={corridor.image}
+                alt=""
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
+              />
               <div className="corridor-card__shade" />
               <div className="corridor-card__copy">
                 <small>{corridor.subtitle}</small>
