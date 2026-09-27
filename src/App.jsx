@@ -393,9 +393,9 @@ function PropertyCard({ property }) {
           <img
             src={property.image}
             alt={property.title}
-            loading="eager"
+            loading="lazy"
             decoding="async"
-            fetchPriority="high"
+            fetchPriority="auto"
           />
         ) : (
           <div className="property-card__placeholder">
@@ -491,9 +491,9 @@ function LatestFromHed() {
                   <img
             src={property.image}
             alt={property.title}
-            loading="eager"
+            loading="lazy"
             decoding="async"
-            fetchPriority="high"
+            fetchPriority="auto"
           />
                   <span>{String(index + 1).padStart(2, "0")}</span>
                 </div>
@@ -1154,9 +1154,9 @@ function PropertyDetailsPage() {
               <img
             src={property.image}
             alt={property.title}
-            loading="eager"
+            loading="lazy"
             decoding="async"
-            fetchPriority="high"
+            fetchPriority="auto"
           />
             ) : (
               <div className="property-detail-hero__placeholder">
