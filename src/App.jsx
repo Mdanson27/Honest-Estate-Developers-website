@@ -743,7 +743,7 @@ function HomePage() {
         <div className="shell split-feature">
           <div className="split-feature__media">
             <img
-              src="https://www.honestestatedevelopers.com/images/property/119185025120230921022129pm.jpg"
+              src={`${import.meta.env.BASE_URL}property-images/kakiri-magogo.webp`}
               alt="Land listed by Honest Estate Developers"
             />
             <div className="split-feature__badge">
