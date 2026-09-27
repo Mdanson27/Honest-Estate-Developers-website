@@ -43,83 +43,78 @@ import {
 import { SocialLinks } from "./social-icons";
 import { preloadCriticalImages, preloadDeferredImages } from "./image-preload";
 
+const propertyImage = (slug) =>
+  properties.find((property) => property.slug === slug)?.image || null;
+
 const HERO_SLIDES = [
   {
-    image:
-      "https://www.honestestatedevelopers.com/images/property/21025318020260608084742pm.jpg",
+    image: propertyImage("mpigi-mpambire"),
     kicker: "Masaka Road • Mpigi–Mpambire",
     title: "Property decisions with",
     emphasis: "clarity.",
     text:
-      "Explore land opportunities through a customer journey built around consultation, site inspection, documentation and transparent support.",
+      "Explore Mpigi–Mpambire through a customer journey built around consultation, site inspection, documentation and transparent support.",
     primary: "/properties?q=Mpigi",
     primaryLabel: "Explore Mpigi opportunities",
   },
   {
-    image:
-      "https://www.honestestatedevelopers.com/images/property/119185025120230921022129pm.jpg",
-    kicker: "Hoima Road • Growth corridor",
+    image: propertyImage("kakiri-magogo"),
+    kicker: "Hoima Road • Kakiri–Magogo",
     title: "Own land with a",
     emphasis: "clear path.",
     text:
-      "Browse HED's estate portfolio across selected growth corridors and compare opportunities by location and budget.",
-    primary: "/properties?corridor=Hoima%20Road",
-    primaryLabel: "Browse Hoima Road",
+      "Explore Kakiri–Magogo and compare HED opportunities by location, budget and the support required before purchase.",
+    primary: "/properties?q=Kakiri",
+    primaryLabel: "Explore Kakiri–Magogo",
   },
   {
-    image:
-      "https://www.honestestatedevelopers.com/images/property/150364507020231006041201pm.jpg",
-    kicker: "Entebbe Road • Investment access",
-    title: "Build toward your",
-    emphasis: "next move.",
+    image: propertyImage("gobero-estate"),
+    kicker: "Hoima Road • Gobero Estate",
+    title: "Invest with more",
+    emphasis: "confidence.",
     text:
-      "From property selection to documentation, construction and management, HED brings professional support into one relationship.",
-    primary: "/services",
-    primaryLabel: "Explore HED services",
+      "Discover Gobero Estate with HED guidance covering property selection, inspection and the next steps toward ownership.",
+    primary: "/properties?q=Gobero",
+    primaryLabel: "Explore Gobero Estate",
   },
   {
-    image:
-      "https://www.honestestatedevelopers.com/images/property/166002707620230926041943pm.jpg",
-    kicker: "Diaspora • Structured investment",
-    title: "Stay connected to",
-    emphasis: "home.",
+    image: propertyImage("mabombwe-estate"),
+    kicker: "Hoima Road • Mabombwe Estate",
+    title: "Move from interest to",
+    emphasis: "ownership.",
     text:
-      "Discover HED's diaspora engagement and structured investment concepts designed to make property ownership more accessible across borders.",
-    primary: "/programmes",
-    primaryLabel: "Explore programmes",
+      "Review Mabombwe Estate and connect with HED for site inspection, documentation guidance and professional property support.",
+    primary: "/properties?q=Mabombwe",
+    primaryLabel: "Explore Mabombwe Estate",
   },
-];
+].filter((slide) => Boolean(slide.image));
 
 const CORRIDORS = [
   {
-    name: "Hoima Road",
-    subtitle: "Affordable estate opportunities",
-    query: "/properties?corridor=Hoima%20Road",
-    image:
-      "https://www.honestestatedevelopers.com/images/property/119185025120230921022129pm.jpg",
+    name: "Kakiri–Magogo",
+    subtitle: "Hoima Road • Wakiso",
+    query: "/properties?q=Kakiri",
+    image: propertyImage("kakiri-magogo"),
   },
   {
-    name: "Entebbe Road",
-    subtitle: "Residential & investment growth",
-    query: "/properties?corridor=Entebbe%20Road",
-    image:
-      "https://www.honestestatedevelopers.com/images/property/150364507020231006041201pm.jpg",
+    name: "Gobero Estate",
+    subtitle: "Hoima Road • Wakiso",
+    query: "/properties?q=Gobero",
+    image: propertyImage("gobero-estate"),
   },
   {
-    name: "Namugongo Road",
-    subtitle: "Urban-edge property access",
-    query: "/properties?corridor=Namugongo%20Road",
-    image:
-      "https://www.honestestatedevelopers.com/images/property/166002707620230926041943pm.jpg",
+    name: "Mabombwe Estate",
+    subtitle: "Hoima Road • Wakiso",
+    query: "/properties?q=Mabombwe",
+    image: propertyImage("mabombwe-estate"),
   },
   {
-    name: "Masaka Road",
-    subtitle: "Mpigi–Mpambire corridor",
-    query: "/properties?corridor=Masaka%20Road",
-    image:
-      "https://www.honestestatedevelopers.com/images/property/21025318020260608084742pm.jpg",
+    name: "Mpigi–Mpambire",
+    subtitle: "Masaka Road • Mpigi",
+    query: "/properties?q=Mpigi",
+    image: propertyImage("mpigi-mpambire"),
   },
-];
+].filter((location) => Boolean(location.image));
 
 const DEMO_STORIES = [
   {
