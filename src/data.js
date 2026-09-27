@@ -121,7 +121,7 @@ export const properties = [
     14000000,
     "UGX 14M",
     "Affordable land investment opportunity within HED's wider estate portfolio.",
-    "https://www.honestestatedevelopers.com/images/property/199881115320230927122302pm.jpg",
+    `${baseUrl}property-images/gobero.webp`,
     true
   ),
   estate(
@@ -134,7 +134,7 @@ export const properties = [
     14000000,
     "UGX 14M / 16M / 18M",
     "Affordable residential plots with access to infrastructure and nearby development.",
-    "https://www.honestestatedevelopers.com/images/property/119185025120230921022129pm.jpg",
+    `${baseUrl}property-images/kakiri-magogo.webp`,
     true
   ),
   estate(
@@ -169,7 +169,7 @@ export const properties = [
     30000000,
     "UGX 30M",
     "Residential and investment land within a growing suburban corridor.",
-    "https://www.honestestatedevelopers.com/images/property/145657377020230922023441pm.jpg",
+    `${baseUrl}property-images/mabombwe.webp`,
     true
   ),
   estate(
@@ -215,8 +215,8 @@ export const properties = [
     70000000,
     "UGX 70M",
     "Listed in HED's current corporate estate portfolio along the Entebbe Road growth corridor.",
-    "https://www.honestestatedevelopers.com/images/property/150364507020231006041201pm.jpg",
-    true
+    null,
+    false
   ),
   estate(
     10,
@@ -260,8 +260,7 @@ export const properties = [
     "Wakiso",
     70000000,
     "UGX 70M",
-    "Listed in HED's current corporate estate portfolio along the Namugongo Road corridor.",
-    "https://www.honestestatedevelopers.com/images/property/166002707620230926041943pm.jpg"
+    "Listed in HED's current corporate estate portfolio along the Namugongo Road corridor."
   ),
   estate(
     14,
@@ -273,7 +272,7 @@ export const properties = [
     32000000,
     "UGX 32M / 35M",
     "Residential and investment plots positioned within the wider Masaka Road growth corridor.",
-    "https://www.honestestatedevelopers.com/images/property/21025318020260608084742pm.jpg",
+    `${baseUrl}property-images/mpigi-mpambire.webp`,
     true
   ),
 ];
