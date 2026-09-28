@@ -43,13 +43,28 @@ jobs:
           set -euo pipefail
           mkdir -p public/property-images
 
+          valid_webp() {
+            local file="$1"
+            [ -f "$file" ] || return 1
+            local size riff webp
+            size=$(wc -c < "$file")
+            riff=$(head -c 4 "$file" || true)
+            webp=$(dd if="$file" bs=1 skip=8 count=4 2>/dev/null || true)
+            [ "$size" -ge 4000 ] && [ "$riff" = "RIFF" ] && [ "$webp" = "WEBP" ]
+          }
+
           fetch_photo() {
             local output="$1"
             local source_file="$2"
             local target="public/property-images/$output"
             local temp="${target}.download"
 
-            echo "Fetching official HED photo: $output"
+            if valid_webp "$target"; then
+              echo "Using verified local HED photo: $output"
+              return 0
+            fi
+
+            echo "Recovering official HED photo: $output"
             rm -f "$temp"
 
             curl --fail --location --silent --show-error \
@@ -57,18 +72,15 @@ jobs:
               "https://wsrv.nl/?url=www.honestestatedevelopers.com/images/property/${source_file}&w=1600&output=webp&q=84" \
               --output "$temp"
 
-            size=$(wc -c < "$temp")
-            riff=$(head -c 4 "$temp" || true)
-            webp=$(dd if="$temp" bs=1 skip=8 count=4 2>/dev/null || true)
-
-            if [ "$size" -lt 4000 ] || [ "$riff" != "RIFF" ] || [ "$webp" != "WEBP" ]; then
-              echo "Invalid image received for $output (size=$size, header=$riff/$webp)"
+            if ! valid_webp "$temp"; then
+              size=$(wc -c < "$temp" 2>/dev/null || echo 0)
+              echo "Invalid image received for $output (size=$size)"
               rm -f "$temp"
               exit 1
             fi
 
             mv "$temp" "$target"
-            echo "Verified $output ($size bytes)"
+            echo "Recovered and verified $output"
           }
 
           fetch_photo "gobero.webp" "199881115320230927122302pm.jpg"
