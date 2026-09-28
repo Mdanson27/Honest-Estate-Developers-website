@@ -37,6 +37,47 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Recover verified HED property photos
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p public/property-images
+
+          fetch_photo() {
+            local output="$1"
+            local source_file="$2"
+            local target="public/property-images/$output"
+            local temp="${target}.download"
+
+            echo "Fetching official HED photo: $output"
+            rm -f "$temp"
+
+            curl --fail --location --silent --show-error \
+              --retry 3 --retry-delay 2 --connect-timeout 15 --max-time 60 \
+              "https://wsrv.nl/?url=www.honestestatedevelopers.com/images/property/${source_file}&w=1600&output=webp&q=84" \
+              --output "$temp"
+
+            size=$(wc -c < "$temp")
+            riff=$(head -c 4 "$temp" || true)
+            webp=$(dd if="$temp" bs=1 skip=8 count=4 2>/dev/null || true)
+
+            if [ "$size" -lt 4000 ] || [ "$riff" != "RIFF" ] || [ "$webp" != "WEBP" ]; then
+              echo "Invalid image received for $output (size=$size, header=$riff/$webp)"
+              rm -f "$temp"
+              exit 1
+            fi
+
+            mv "$temp" "$target"
+            echo "Verified $output ($size bytes)"
+          }
+
+          fetch_photo "gobero.webp" "199881115320230927122302pm.jpg"
+          fetch_photo "kakiri-magogo.webp" "119185025120230921022129pm.jpg"
+          fetch_photo "mabombwe.webp" "145657377020230922023441pm.jpg"
+          fetch_photo "sisa-lutaba.webp" "150364507020231006041201pm.jpg"
+          fetch_photo "namugongo-sonde.webp" "166002707620230926041943pm.jpg"
+          fetch_photo "mpigi-mpambire.webp" "21025318020260608084742pm.jpg"
+
       - name: Build production bundle
         run: npm run build
 
@@ -52,7 +93,7 @@ jobs:
           cp "dist/HED OFFICIAL LOGO.png" "./HED OFFICIAL LOGO.png"
           touch .nojekyll
 
-          git add index.html assets property-images "HED OFFICIAL LOGO.png" .nojekyll
+          git add index.html assets property-images public/property-images "HED OFFICIAL LOGO.png" .nojekyll
 
           if git diff --cached --quiet; then
             echo "Production bundle is already current."
