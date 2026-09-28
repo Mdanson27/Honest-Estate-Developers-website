@@ -969,11 +969,41 @@ function AuthCard({ mode }) {
 }
 
 export function LoginDemo() {
-  return <div className="auth-page"><div className="auth-page__visual"><div><span>Client experience prototype</span><h2>Save opportunities. Return to them. Continue your property journey.</h2><p>A future production account can connect enquiries, site visits, documentation status and customer communication.</p></div></div><AuthCard mode="login" /></div>;
+  const image = propertyImage("mpigi-mpambire");
+  return (
+    <div className="auth-page">
+      <div
+        className="auth-page__visual"
+        style={{ "--auth-image": image ? `url("${image}")` : "none" }}
+      >
+        <div>
+          <span>Client experience prototype</span>
+          <h2>Save opportunities. Return to them. Continue your property journey.</h2>
+          <p>A future production account can connect enquiries, site visits, documentation status and customer communication.</p>
+        </div>
+      </div>
+      <AuthCard mode="login" />
+    </div>
+  );
 }
 
 export function SignupDemo() {
-  return <div className="auth-page"><div className="auth-page__visual auth-page__visual--signup"><div><span>Future HED client portal</span><h2>One place for your property interests.</h2><p>This demonstration shows how HED can evolve from a marketing website into a customer relationship platform.</p></div></div><AuthCard mode="signup" /></div>;
+  const image = propertyImage("kakiri-magogo");
+  return (
+    <div className="auth-page">
+      <div
+        className="auth-page__visual auth-page__visual--signup"
+        style={{ "--auth-image": image ? `url("${image}")` : "none" }}
+      >
+        <div>
+          <span>Future HED client portal</span>
+          <h2>One place for your property interests.</h2>
+          <p>This demonstration shows how HED can evolve from a marketing website into a customer relationship platform.</p>
+        </div>
+      </div>
+      <AuthCard mode="signup" />
+    </div>
+  );
 }
 
 export function AccountDashboard() {
