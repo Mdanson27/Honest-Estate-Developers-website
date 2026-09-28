@@ -399,8 +399,9 @@ function PropertyCard({ property }) {
           />
         ) : (
           <div className="property-card__placeholder">
-            <span>{property.corridor}</span>
+            <span>HED portfolio • photo pending</span>
             <strong>{property.title}</strong>
+            <small>Only verified property-specific photos are displayed.</small>
           </div>
         )}
         <span className="property-card__status">Estate</span>
@@ -648,7 +649,7 @@ function NewsletterSignup() {
 }
 
 function HomePage() {
-  const featured = properties.filter((p) => p.featured).slice(0, 4);
+  const featured = properties.filter((p) => p.featured && p.image).slice(0, 4);
 
   return (
     <PageShell>
@@ -1160,8 +1161,9 @@ function PropertyDetailsPage() {
           />
             ) : (
               <div className="property-detail-hero__placeholder">
-                <span>{property.corridor}</span>
+                <span>HED portfolio • photo pending</span>
                 <strong>{property.title}</strong>
+                <small>Awaiting a verified photo from HED.</small>
               </div>
             )}
             <span>Estate portfolio</span>
