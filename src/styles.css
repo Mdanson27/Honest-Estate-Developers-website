@@ -4217,7 +4217,7 @@ img {
   padding: 60px;
   background:
     linear-gradient(0deg, rgba(8,13,18,.82), rgba(8,13,18,.18)),
-    url("https://www.honestestatedevelopers.com/images/property/21025318020260608084742pm.jpg") center/cover;
+    var(--auth-image, none) center/cover no-repeat;
   color: white;
   display: flex;
   align-items: flex-end;
@@ -4226,7 +4226,7 @@ img {
 .auth-page__visual--signup {
   background:
     linear-gradient(0deg, rgba(8,13,18,.82), rgba(8,13,18,.2)),
-    url("https://honestestatedevelopers.com/images/property/119185025120230921022129pm.jpg") center/cover;
+    var(--auth-image, none) center/cover no-repeat;
 }
 
 .auth-page__visual > div { max-width: 590px; }
