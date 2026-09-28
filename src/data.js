@@ -1,5 +1,6 @@
 const baseUrl = import.meta.env.BASE_URL;
-const propertyImage = (filename) => `${baseUrl}property-images/${filename}`;
+const officialPropertyPhoto = (filename) =>
+  `https://wsrv.nl/?url=www.honestestatedevelopers.com/images/property/${filename}&w=1600&output=webp&q=84`;
 
 export const company = {
   name: "Honest Estate Developers Ltd",
@@ -122,7 +123,7 @@ export const properties = [
     14000000,
     "UGX 14M",
     "Affordable land investment opportunity within HED's wider estate portfolio.",
-    `${baseUrl}property-images/gobero.webp`,
+    officialPropertyPhoto("199881115320230927122302pm.jpg"),
     true
   ),
   estate(
@@ -135,7 +136,7 @@ export const properties = [
     14000000,
     "UGX 14M / 16M / 18M",
     "Affordable residential plots with access to infrastructure and nearby development.",
-    `${baseUrl}property-images/kakiri-magogo.webp`,
+    officialPropertyPhoto("119185025120230921022129pm.jpg"),
     true
   ),
   estate(
@@ -170,7 +171,7 @@ export const properties = [
     30000000,
     "UGX 30M",
     "Residential and investment land within a growing suburban corridor.",
-    `${baseUrl}property-images/mabombwe.webp`,
+    officialPropertyPhoto("145657377020230922023441pm.jpg"),
     true
   ),
   estate(
@@ -216,8 +217,8 @@ export const properties = [
     70000000,
     "UGX 70M",
     "Listed in HED's current corporate estate portfolio along the Entebbe Road growth corridor.",
-    null,
-    false
+    officialPropertyPhoto("150364507020231006041201pm.jpg"),
+    true
   ),
   estate(
     10,
@@ -261,7 +262,9 @@ export const properties = [
     "Wakiso",
     70000000,
     "UGX 70M",
-    "Listed in HED's current corporate estate portfolio along the Namugongo Road corridor."
+    "Listed in HED's current corporate estate portfolio along the Namugongo Road corridor.",
+    officialPropertyPhoto("166002707620230926041943pm.jpg"),
+    true
   ),
   estate(
     14,
@@ -273,7 +276,7 @@ export const properties = [
     32000000,
     "UGX 32M / 35M",
     "Residential and investment plots positioned within the wider Masaka Road growth corridor.",
-    `${baseUrl}property-images/mpigi-mpambire.webp`,
+    officialPropertyPhoto("21025318020260608084742pm.jpg"),
     true
   ),
 ];
