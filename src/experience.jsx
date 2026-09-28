@@ -89,6 +89,26 @@ const HERO_SLIDES = [
     primary: "/properties?q=Mabombwe",
     primaryLabel: "Explore Mabombwe Estate",
   },
+  {
+    image: propertyImage("sisa-lutaba"),
+    kicker: "Entebbe Road • Sisa–Lutaba",
+    title: "See the location before",
+    emphasis: "you decide.",
+    text:
+      "Explore Sisa–Lutaba with a genuine HED estate photo and move from online research to a physical site inspection.",
+    primary: "/properties?q=Sisa",
+    primaryLabel: "Explore Sisa–Lutaba",
+  },
+  {
+    image: propertyImage("namugongo-sonde"),
+    kicker: "Namugongo Road • Sonde",
+    title: "Invest where growth is",
+    emphasis: "taking shape.",
+    text:
+      "Discover Namugongo–Sonde and connect with HED for current availability, documentation guidance and a site visit.",
+    primary: "/properties?q=Namugongo",
+    primaryLabel: "Explore Namugongo–Sonde",
+  },
 ].filter((slide) => Boolean(slide.image));
 
 const CORRIDORS = [
@@ -115,6 +135,18 @@ const CORRIDORS = [
     subtitle: "Masaka Road • Mpigi",
     query: "/properties?q=Mpigi",
     image: propertyImage("mpigi-mpambire"),
+  },
+  {
+    name: "Sisa–Lutaba",
+    subtitle: "Entebbe Road • Wakiso",
+    query: "/properties?q=Sisa",
+    image: propertyImage("sisa-lutaba"),
+  },
+  {
+    name: "Namugongo–Sonde",
+    subtitle: "Namugongo Road • Wakiso",
+    query: "/properties?q=Namugongo",
+    image: propertyImage("namugongo-sonde"),
   },
 ].filter((location) => Boolean(location.image));
 
