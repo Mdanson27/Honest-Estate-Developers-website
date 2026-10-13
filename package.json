@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "prepare:index": "node scripts/prepare-index.mjs",
-    "optimize:media": "node scripts/optimize-media.mjs",
+    "optimize:media": "node scripts/optimize-media.mjs && node scripts/optimize-extra-video-posters.mjs",
     "predev": "npm run prepare:index",
     "dev": "vite",
     "prebuild": "npm run prepare:index && npm run optimize:media",
