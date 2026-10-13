@@ -25,9 +25,9 @@ const posterUrl = (filename) =>
 
 const ESTATES = {
   "kakiri-magogo": {
-    name: "Kakiri–Magogo",
+    name: "Kakiriâ€“Magogo",
     folder: "magogo",
-    location: "Hoima Road • Wakiso",
+    location: "Hoima Road â€¢ Wakiso",
     files: [
       "DJI_0382.jpg",
       "DJI_0383.jpg",
@@ -41,13 +41,13 @@ const ESTATES = {
   "nampunge-estate": {
     name: "Nampunge Estate",
     folder: "nampunge",
-    location: "Hoima Road • Wakiso",
+    location: "Hoima Road â€¢ Wakiso",
     files: ["DJI_0396.jpg", "DJI_0399.jpg", "DJI_0400.jpg", "DJI_0403.jpg"],
   },
   "mabombwe-estate": {
     name: "Mabombwe Estate",
     folder: "mabombwe",
-    location: "Hoima Road • Wakiso",
+    location: "Hoima Road â€¢ Wakiso",
     files: [
       "DJI_0414.jpg",
       "DJI_0415.jpg",
@@ -61,9 +61,9 @@ const ESTATES = {
     ],
   },
   "namugongo-sonde": {
-    name: "Namugongo–Sonde",
+    name: "Namugongoâ€“Sonde",
     folder: "ssonde",
-    location: "Namugongo Road • Wakiso",
+    location: "Namugongo Road â€¢ Wakiso",
     files: [
       "DJI_0516.jpg",
       "DJI_0517.jpg",
@@ -81,9 +81,9 @@ const ESTATES = {
     ],
   },
   "mpigi-mpambire": {
-    name: "Mpigi–Mpambire",
+    name: "Mpigiâ€“Mpambire",
     folder: "mpambire-estate-2026",
-    location: "Masaka Road • Mpigi",
+    location: "Masaka Road â€¢ Mpigi",
     files: [
       "BYC 001.jpg",
       "BYC 002.jpg",
@@ -100,7 +100,7 @@ const ESTATES = {
   kiwenda: {
     name: "Kiwenda Estate",
     folder: "kiwenda",
-    location: "HED estate media • 2026",
+    location: "HED estate media â€¢ 2026",
     files: ["DJI_0503.jpg", "DJI_0504.jpg", "DJI_0507.jpg", "DJI_0511.jpg", "DJI_0512.jpg"],
     contactOnly: true,
   },
@@ -160,7 +160,7 @@ function VideoCard({ item, featured = false }) {
           >
             <img src={posterUrl(item.poster)} alt="" loading="lazy" decoding="async" />
             <span className="hed-video-card__play"><Play size={22} fill="currentColor" /></span>
-            <span className="hed-video-card__hint">Click to play</span>
+            <span className="hed-video-card__hint">HED video</span>
           </button>
         )}
       </div>
@@ -219,7 +219,7 @@ function HomeEstateMedia() {
           <div>
             <span className="eyebrow">Real HED estate media</span>
             <h2>Explore the estates through current photography and video.</h2>
-            <p>High-resolution source media is optimized into lightweight web versions, so visitors can explore the real locations without carrying the full original file sizes on page load.</p>
+            <p>Explore real Honest Estate Developers locations through current estate photography captured across HED's active property portfolio.</p>
           </div>
           <div className="hed-media-heading__badge"><Images size={18} /> 2026 estate photography</div>
         </div>
@@ -244,7 +244,7 @@ function HomeEstateMedia() {
             <h3>{estate.name}</h3>
             <p><MapPin size={16} /> {estate.location}</p>
             <strong>{estate.files.length} verified estate photographs</strong>
-            <p className="hed-estate-showcase__note">Only one full-size optimized image is loaded at a time. This keeps the homepage responsive even on mobile connections.</p>
+            <p className="hed-estate-showcase__note">Honest Estate Developers combines property information, site inspection support and professional guidance to help clients understand each estate before making a decision.</p>
             {estate.contactOnly ? (
               <Link className="btn btn--dark" to="/contact">Ask HED about this estate <ArrowRight size={17} /></Link>
             ) : (
@@ -258,9 +258,9 @@ function HomeEstateMedia() {
             <div>
               <span className="eyebrow">Watch the property</span>
               <h2>Mpambire estate video experience</h2>
-              <p>Videos remain completely unloaded until a visitor presses play. The homepage therefore gets the visual impact of video without downloading more than 100 MB of video during normal browsing.</p>
+              <p>See Honest Estate Developers on the ground through estate tours, property visits and current field footage from the HED team.</p>
             </div>
-            <div className="hed-video-experience__zero"><Video size={18} /> 0 MB video preload</div>
+            <div className="hed-video-experience__zero"><Video size={18} /> HED video tours</div>
           </div>
           <div className="hed-video-grid">
             {VIDEO_ITEMS.map((item, itemIndex) => (
@@ -296,7 +296,7 @@ function PropertyGallery({ slug }) {
           <div>
             <span className="eyebrow">Property media</span>
             <h2>See {estate.name} before your site visit.</h2>
-            <p>Browse verified property-specific photography. Thumbnail images are heavily compressed; the larger image only loads when selected.</p>
+            <p>Browse verified Honest Estate Developers estate photography and get a clearer view of the location before arranging your site inspection.</p>
           </div>
           <div className="hed-media-heading__badge"><Images size={18} /> {estate.files.length} photos</div>
         </div>
@@ -331,7 +331,7 @@ function PropertyGallery({ slug }) {
             <div className="hed-property-videos__head">
               <span className="eyebrow">Video tours</span>
               <h2>Drone and site footage from Mpambire</h2>
-              <p>Press play on any video. No video file is requested from the browser before that action.</p>
+              <p>Watch Honest Estate Developers' Mpambire footage and experience the estate from aerial and on-site perspectives.</p>
             </div>
             <div className="hed-video-grid hed-video-grid--property">
               {VIDEO_ITEMS.map((item, itemIndex) => (

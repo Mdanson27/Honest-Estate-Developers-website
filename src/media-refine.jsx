@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { Film, Play } from "lucide-react";
-import { useLocation } from "react-router-dom";
+import { ArrowRight, Film, MapPin, Play } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 
 const baseUrl = import.meta.env.BASE_URL;
 
@@ -43,62 +43,82 @@ const HED_VIDEOS = [
     poster: "mpambire-site-visit-3-poster.jpg",
   },
   {
-    title: "HED estate showcase",
-    label: "Honest Estate Developers • Estate view",
+    title: "HED estate aerial overview",
+    label: "Honest Estate Developers • Aerial view",
     folder: "hed-highlights",
-    file: "hed-estate-highlight-1.mp4",
-    poster: "hed-estate-highlight-1-poster.jpg",
-    optional: true,
+    file: "hed-property-experience-01-aerial-view.mp4",
+    poster: "hed-property-experience-01-aerial-view-poster.jpg",
   },
   {
-    title: "HED on-site experience",
-    label: "Honest Estate Developers • In the field",
+    title: "HED estate site tour",
+    label: "Honest Estate Developers • Property visit",
     folder: "hed-highlights",
-    file: "hed-estate-highlight-2.mp4",
-    poster: "hed-estate-highlight-2-poster.jpg",
-    optional: true,
+    file: "hed-property-experience-02-site-tour.mp4",
+    poster: "hed-property-experience-02-site-tour-poster.jpg",
   },
   {
-    title: "HED property update",
-    label: "Honest Estate Developers • Property update",
+    title: "HED property briefing",
+    label: "Honest Estate Developers • Property briefing",
     folder: "hed-highlights",
-    file: "hed-estate-highlight-3.mp4",
-    poster: "hed-estate-highlight-3-poster.jpg",
-    optional: true,
+    file: "hed-property-experience-03-property-briefing.mp4",
+    poster: "hed-property-experience-03-property-briefing-poster.jpg",
   },
   {
-    title: "HED property conversation",
-    label: "Honest Estate Developers • Property insight",
+    title: "HED estate presentation",
+    label: "Honest Estate Developers • Estate presentation",
     folder: "hed-highlights",
-    file: "hed-estate-highlight-4.mp4",
-    poster: "hed-estate-highlight-4-poster.jpg",
-    optional: true,
+    file: "hed-property-experience-04-estate-presentation.mp4",
+    poster: "hed-property-experience-04-estate-presentation-poster.jpg",
   },
   {
-    title: "HED team on the ground",
-    label: "Honest Estate Developers • Field team",
+    title: "HED team field visit",
+    label: "Honest Estate Developers • On the ground",
     folder: "hed-highlights",
-    file: "hed-estate-highlight-5.mp4",
-    poster: "hed-estate-highlight-5-poster.jpg",
-    optional: true,
+    file: "hed-property-experience-05-field-visit.mp4",
+    poster: "hed-property-experience-05-field-visit-poster.jpg",
+  },
+];
+
+const NEWEST_ESTATES = [
+  {
+    name: "Mpigi–Mpambire",
+    location: "Masaka Road • Mpigi",
+    price: "UGX 32M / 35M",
+    image: `${baseUrl}media/mpambire-estate-2026/byc-001-thumb.webp`,
+    to: "/properties/mpigi-mpambire",
+  },
+  {
+    name: "Namugongo–Sonde",
+    location: "Namugongo Road • Wakiso",
+    price: "UGX 70M",
+    image: `${baseUrl}media/ssonde/dji-0516-thumb.webp`,
+    to: "/properties/namugongo-sonde",
+  },
+  {
+    name: "Nampunge Estate",
+    location: "Hoima Road • Wakiso",
+    price: "UGX 25M",
+    image: `${baseUrl}media/nampunge/dji-0396-thumb.webp`,
+    to: "/properties/nampunge-estate",
+  },
+  {
+    name: "Mabombwe Estate",
+    location: "Hoima Road • Wakiso",
+    price: "UGX 30M",
+    image: `${baseUrl}media/mabombwe/dji-0414-thumb.webp`,
+    to: "/properties/mabombwe-estate",
+  },
+  {
+    name: "Kakiri–Magogo",
+    location: "Hoima Road • Wakiso",
+    price: "UGX 14M / 16M / 18M",
+    image: `${baseUrl}media/magogo/dji-0382-thumb.webp`,
+    to: "/properties/kakiri-magogo",
   },
 ];
 
 function HedVideoCard({ item }) {
   const [playing, setPlaying] = useState(false);
-  const [available, setAvailable] = useState(!item.optional);
-
-  useEffect(() => {
-    if (!item.optional) return undefined;
-    let active = true;
-    const image = new Image();
-    image.onload = () => active && setAvailable(true);
-    image.onerror = () => active && setAvailable(false);
-    image.src = posterUrl(item.poster);
-    return () => { active = false; };
-  }, [item]);
-
-  if (!available) return null;
 
   return (
     <article className="hed-video-refined__card">
@@ -132,6 +152,41 @@ function HedVideoCard({ item }) {
   );
 }
 
+function NewestEstates() {
+  return (
+    <section className="hed-newest-estates">
+      <div className="hed-newest-estates__head">
+        <div>
+          <span className="eyebrow">Newest estates</span>
+          <h2>See the latest HED estate opportunities</h2>
+          <p>
+            Discover recently highlighted Honest Estate Developers locations and move directly into the property details, estate gallery and site-visit journey.
+          </p>
+        </div>
+        <Link className="hed-newest-estates__all" to="/properties">
+          View all HED estates <ArrowRight size={17} />
+        </Link>
+      </div>
+      <div className="hed-newest-estates__rail">
+        {NEWEST_ESTATES.map((estate) => (
+          <Link className="hed-newest-estate-card" to={estate.to} key={estate.name}>
+            <div className="hed-newest-estate-card__media">
+              <img src={estate.image} alt={`${estate.name} by Honest Estate Developers`} loading="lazy" decoding="async" />
+              <span>HED estate</span>
+            </div>
+            <div className="hed-newest-estate-card__copy">
+              <small><MapPin size={13} /> {estate.location}</small>
+              <h3>{estate.name}</h3>
+              <strong>{estate.price}</strong>
+              <span>Explore estate <ArrowRight size={15} /></span>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function HedVideoLibrary({ property = false }) {
   const items = property ? HED_VIDEOS.slice(0, 3) : HED_VIDEOS;
 
@@ -144,7 +199,7 @@ function HedVideoLibrary({ property = false }) {
           <p>
             {property
               ? "Take a closer look at Mpambire through Honest Estate Developers' aerial views and on-site property footage."
-              : "Explore Honest Estate Developers through estate tours, property visits, field updates and on-ground experiences from the HED team."}
+              : "Explore HED estate tours, property visits, field briefings and on-ground experiences from the Honest Estate Developers team."}
           </p>
         </div>
         <div className="hed-video-refined__badge"><Film size={18} /> HED video library</div>
@@ -196,5 +251,11 @@ export default function MediaRefinement() {
   }, [location.pathname, location.key, isHome, isMpambire]);
 
   if (!target) return null;
-  return createPortal(<HedVideoLibrary property={isMpambire} />, target);
+  return createPortal(
+    <>
+      {isHome && <NewestEstates />}
+      <HedVideoLibrary property={isMpambire} />
+    </>,
+    target
+  );
 }

@@ -242,3 +242,185 @@
     transition: none;
   }
 }
+
+
+.hed-newest-estates {
+  margin-top: 66px;
+  padding: 50px 0 6px;
+  border-top: 1px solid #dfe3e7;
+}
+
+.hed-newest-estates__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px;
+  margin-bottom: 24px;
+}
+
+.hed-newest-estates__head > div:first-child {
+  max-width: 760px;
+}
+
+.hed-newest-estates__head h2 {
+  margin: 8px 0 10px;
+  color: #14181d;
+  font-size: clamp(32px, 4.2vw, 54px);
+  line-height: .98;
+  letter-spacing: -.05em;
+}
+
+.hed-newest-estates__head p {
+  margin: 0;
+  color: #68717b;
+  font-size: 12px;
+  line-height: 1.75;
+}
+
+.hed-newest-estates__all {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #14181d;
+  font-size: 11px;
+  font-weight: 800;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.hed-newest-estates__rail {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(210px, 1fr));
+  gap: 14px;
+  overflow-x: auto;
+  padding: 4px 2px 18px;
+  scrollbar-width: thin;
+}
+
+.hed-newest-estate-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #dfe3e7;
+  border-radius: 18px;
+  background: #fff;
+  color: inherit;
+  text-decoration: none;
+  box-shadow: 0 12px 30px rgba(15,23,42,.05);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.hed-newest-estate-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 36px rgba(15,23,42,.09);
+}
+
+.hed-newest-estate-card__media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #11161c;
+}
+
+.hed-newest-estate-card__media img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform .45s ease;
+}
+
+.hed-newest-estate-card:hover .hed-newest-estate-card__media img {
+  transform: scale(1.035);
+}
+
+.hed-newest-estate-card__media > span {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  padding: 7px 9px;
+  border-radius: 999px;
+  background: #f9d204;
+  color: #14181d;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.hed-newest-estate-card__copy {
+  padding: 16px 16px 18px;
+}
+
+.hed-newest-estate-card__copy small {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #69727c;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.hed-newest-estate-card__copy h3 {
+  margin: 8px 0 8px;
+  color: #14181d;
+  font-size: 18px;
+  line-height: 1.12;
+  letter-spacing: -.03em;
+}
+
+.hed-newest-estate-card__copy strong {
+  display: block;
+  margin-bottom: 15px;
+  color: #0362b0;
+  font-size: 12px;
+}
+
+.hed-newest-estate-card__copy > span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 13px;
+  border-top: 1px solid #eceef0;
+  color: #14181d;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+@media (max-width: 1180px) {
+  .hed-newest-estates__rail {
+    grid-template-columns: repeat(5, minmax(230px, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .hed-newest-estates {
+    margin-top: 48px;
+    padding-top: 34px;
+  }
+
+  .hed-newest-estates__head {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .hed-newest-estates__head h2 {
+    font-size: 34px;
+  }
+
+  .hed-newest-estates__rail {
+    grid-template-columns: repeat(5, minmax(78vw, 1fr));
+    scroll-snap-type: x mandatory;
+  }
+
+  .hed-newest-estate-card {
+    scroll-snap-align: start;
+  }
+}
+
+
+.hed-video-refined__media video,
+.hed-video-refined__poster img {
+  object-fit: contain;
+  background: #0d1319;
+}
