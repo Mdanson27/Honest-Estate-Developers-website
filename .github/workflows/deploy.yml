@@ -1,4 +1,4 @@
-﻿name: Build HED Production Site
+name: Build HED Production Site
 
 on:
   push:
@@ -104,7 +104,8 @@ jobs:
           mkdir -p property-images docs
 
           cp -R dist/assets ./assets
-          cp -R dist/media ./media`n          cp -R dist/docs/. ./docs/
+          cp -R dist/media ./media
+          cp -R dist/docs/. ./docs/
           find dist/property-images -maxdepth 1 -type f -exec cp {} ./property-images/ \;
           cp dist/index.html ./index.html
           cp "dist/HED OFFICIAL LOGO.png" "./HED OFFICIAL LOGO.png"
