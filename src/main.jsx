@@ -7,6 +7,7 @@ import MediaRefinement from "./media-refine";
 import "./styles.css";
 import "./media.css";
 import "./media-refine.css";
+import "./hip.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

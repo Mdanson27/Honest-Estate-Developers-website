@@ -69,6 +69,8 @@ const money = new Intl.NumberFormat("en-UG", {
   maximumFractionDigits: 0,
 });
 
+const hipBrochureUrl = `${import.meta.env.BASE_URL}docs/HED-Honest-Investor-Plan.pdf`;
+
 function ScrollToTop() {
   const location = useLocation();
   useEffect(() => {
@@ -214,6 +216,7 @@ function Footer() {
           <Link to="/properties">Properties</Link>
           <Link to="/services">Services</Link>
           <Link to="/programmes">Investment programmes</Link>
+          <Link to="/programmes/hip">Honest Investor Plan (HIP)</Link>
           <Link to="/about">About HED</Link>
           <Link to="/insights">Insights</Link>
         </div>
@@ -648,6 +651,51 @@ function NewsletterSignup() {
   );
 }
 
+function HipSpotlight({ compact = false }) {
+  return (
+    <section className={`hip-spotlight ${compact ? "hip-spotlight--compact" : ""}`}>
+      <div className="hip-spotlight__accent" />
+      <div className="hip-spotlight__copy">
+        <span className="eyebrow">HED products & offers</span>
+        <div className="hip-spotlight__badge">HIP</div>
+        <h2>Honest Investor Plan</h2>
+        <p className="hip-spotlight__lead">Your 12-month path to land ownership — from saver to landowner.</p>
+        <p>
+          A structured land savings and ownership programme for eligible clients who want to turn consistent income into a real property asset through a guided contribution pathway.
+        </p>
+        <div className="hip-spotlight__points">
+          <span><Check size={16} /> Choose an HED project and target plot</span>
+          <span><Check size={16} /> Make structured monthly contributions</span>
+          <span><Check size={16} /> Work toward defined ownership milestones</span>
+        </div>
+        <div className="hip-spotlight__actions">
+          <Link className="btn btn--dark" to="/programmes/hip">
+            Explore HIP <ArrowRight size={17} />
+          </Link>
+          <a className="btn btn--ghost" href={hipBrochureUrl} target="_blank" rel="noreferrer">
+            <FileCheck2 size={17} /> View brochure
+          </a>
+        </div>
+      </div>
+      <div className="hip-spotlight__journey" aria-label="HIP ownership journey">
+        {[
+          ["01", "Choose your land"],
+          ["02", "Set your target"],
+          ["03", "Save consistently"],
+          ["04", "Reach your milestone"],
+          ["05", "Complete payment"],
+          ["06", "Begin ownership"],
+        ].map(([step, label]) => (
+          <div key={step}>
+            <strong>{step}</strong>
+            <span>{label}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function HomePage() {
   const featured = properties.filter((p) => p.featured && p.image).slice(0, 4);
 
@@ -707,6 +755,12 @@ function HomePage() {
       </section>
 
       <LatestFromHed />
+
+      <section className="section hip-home-section">
+        <div className="shell">
+          <HipSpotlight />
+        </div>
+      </section>
 
       <section className="section section--soft">
         <div className="shell">
@@ -1298,6 +1352,17 @@ function ServicesPage() {
         </div>
       </section>
 
+      <section className="section section--soft hed-offers-section">
+        <div className="shell">
+          <SectionIntro
+            eyebrow="HED products & offers"
+            title="Ownership solutions beyond the property catalogue"
+            copy="HED combines its property services with structured ownership programmes designed around how customers actually earn, save and invest."
+          />
+          <HipSpotlight compact />
+        </div>
+      </section>
+
       <section className="section section--soft">
         <div className="shell process">
           <SectionIntro
@@ -1489,6 +1554,153 @@ function HandshakeMark() {
   );
 }
 
+function HipPage() {
+  const pathway = [
+    ["01", "Register", "Complete HIP registration and nominate your next of kin."],
+    ["02", "Choose your investment target", "Select your preferred HED project and identify the land value you are working toward."],
+    ["03", "Make monthly contributions", "Commit to your agreed monthly contribution and contribute more whenever you wish."],
+    ["04", "Reach the 50–60% milestone", "You may qualify for a Sales Purchase Agreement and plot consideration, subject to HED policies and agreement terms."],
+    ["05", "Complete your payment", "Work toward completing the agreed purchase price within the 12-month programme period."],
+    ["06", "Begin the ownership process", "Upon full payment, the title-transfer process is initiated in accordance with applicable transaction procedures."],
+  ];
+
+  const contributionLevels = [
+    ["Local members", "UGX 1,000,000", "Minimum per month"],
+    ["Diaspora — Gulf region", "UGX 1,500,000", "Minimum per month"],
+    ["Diaspora — UK, USA, Canada & other European countries", "UGX 2,500,000", "Minimum per month"],
+  ];
+
+  return (
+    <PageShell>
+      <PageHero
+        eyebrow="HED ownership programme"
+        title="Honest Investor Plan (HIP)"
+        copy="A structured 12-month land savings and ownership programme designed to help eligible clients work gradually toward acquiring a selected plot of land."
+      >
+        <div className="hip-hero-actions">
+          <a className="btn btn--brand" href={hipBrochureUrl} target="_blank" rel="noreferrer">
+            <FileCheck2 size={18} /> View full brochure
+          </a>
+          <a
+            className="btn btn--dark"
+            href={`https://wa.me/${company.phoneWhatsApp}?text=${encodeURIComponent("Hello Honest Estate Developers, I would like to learn more about the Honest Investor Plan (HIP).")}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <MessageCircle size={18} /> Start HIP enquiry
+          </a>
+        </div>
+      </PageHero>
+
+      <section className="section hip-intro-section">
+        <div className="shell hip-intro-grid">
+          <div>
+            <span className="eyebrow">From saver to landowner</span>
+            <h2>Land ownership should not have to wait.</h2>
+            <p>
+              HIP is designed for people who want to turn regular income into a real asset through a structured and disciplined approach to land ownership.
+            </p>
+            <p>
+              Clients choose an HED project, set an investment target, contribute consistently and work toward clearly defined milestones before completing payment and beginning the ownership process.
+            </p>
+          </div>
+          <div className="hip-fit-card">
+            <span>Best suited for</span>
+            <strong>First-time buyers, young professionals, income earners and Ugandans living and working abroad.</strong>
+            <p>HIP is a guided pathway to owning land, not simply a savings account.</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="section section--soft">
+        <div className="shell">
+          <SectionIntro
+            eyebrow="Your contribution pathway"
+            title="Start with a contribution level aligned to your target"
+            copy="The current proposed minimums provide a starting point. Your required contribution should be matched to your selected plot and agreed purchase target, and you may contribute more to accelerate progress."
+          />
+          <div className="hip-contribution-grid">
+            {contributionLevels.map(([audience, amount, note]) => (
+              <article key={audience}>
+                <span>{audience}</span>
+                <strong>{amount}</strong>
+                <small>{note}</small>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="shell">
+          <SectionIntro
+            eyebrow="How HIP works"
+            title="Six steps from registration to ownership"
+            copy="A simple, documented pathway that keeps the investment target, contribution progress and ownership milestones clear."
+          />
+          <div className="hip-steps-grid">
+            {pathway.map(([step, title, text]) => (
+              <article key={step}>
+                <span>{step}</span>
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section section--dark">
+        <div className="shell">
+          <SectionIntro
+            eyebrow="Why choose HIP"
+            title="A clearer way to work toward land ownership"
+            copy="HIP combines a defined target, structured contributions, progress tracking and documented milestones."
+            dark
+          />
+          <div className="hip-benefits-grid">
+            {[
+              ["A clear path to ownership", "Know what you are working toward, how much you need to contribute and the milestone you are targeting."],
+              ["Turn income into an asset", "Build toward a structured land-ownership goal instead of waiting for a single large lump sum."],
+              ["Choose your preferred project", "Identify the HED project and target value that best fits your investment objective."],
+              ["Accelerate whenever you can", "Increase contributions when additional income is available and potentially complete earlier."],
+            ].map(([title, text]) => (
+              <article key={title}>
+                <ShieldCheck size={22} />
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section hip-terms-section">
+        <div className="shell hip-terms-card">
+          <div>
+            <span className="eyebrow">Important programme terms</span>
+            <h2>Designed around transparency and responsible allocation.</h2>
+          </div>
+          <div className="hip-terms-list">
+            <p><Check size={16} /> Plot allocation or reservation is not automatic upon registration and remains subject to the applicable milestone and HED policies.</p>
+            <p><Check size={16} /> At the applicable 50–60% milestone, a Sales Purchase Agreement may be issued and a specific plot may be provisionally reserved, subject to HED policies.</p>
+            <p><Check size={16} /> No construction takes place before full payment.</p>
+            <p><Check size={16} /> Withdrawal, transfer, title-transfer and other processes are subject to the applicable HIP agreement, HED policies and transaction procedures.</p>
+          </div>
+          <div className="hip-spotlight__actions">
+            <a className="btn btn--dark" href={hipBrochureUrl} target="_blank" rel="noreferrer">
+              Read the full HIP brochure <ArrowRight size={17} />
+            </a>
+            <Link className="btn btn--ghost" to="/contact">Talk to HED</Link>
+          </div>
+        </div>
+      </section>
+
+      <LeadCta />
+    </PageShell>
+  );
+}
+
 function ProgrammesPage() {
   return (
     <PageShell>
@@ -1510,9 +1722,15 @@ function ProgrammesPage() {
                 <small>{program.audience}</small>
                 <h2>{program.name}</h2>
                 <p>{program.description}</p>
-                <Link className="text-link" to="/contact">
-                  Discuss this programme <ArrowRight size={17} />
-                </Link>
+                {program.id === "hip" ? (
+                  <Link className="text-link" to="/programmes/hip">
+                    Explore the Honest Investor Plan <ArrowRight size={17} />
+                  </Link>
+                ) : (
+                  <Link className="text-link" to="/contact">
+                    Discuss this programme <ArrowRight size={17} />
+                  </Link>
+                )}
               </div>
             </article>
           ))}
@@ -1787,6 +2005,7 @@ export default function App() {
         <Route path="/properties/:slug" element={<PropertyDetailsPage />} />
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/programmes" element={<ProgrammesPage />} />
+        <Route path="/programmes/hip" element={<HipPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/insights" element={<InsightsPage />} />
         <Route path="/contact" element={<ContactPage />} />

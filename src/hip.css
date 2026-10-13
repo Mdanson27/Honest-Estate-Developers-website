@@ -1,0 +1,138 @@
+/* Honest Investor Plan (HIP) product / offer experience */
+.hip-home-section { padding-top: 28px; }
+.hip-spotlight {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, .8fr);
+  min-height: 510px;
+  border-radius: 28px;
+  background: linear-gradient(135deg, #fff 0%, #fff9d8 58%, #f5d205 100%);
+  border: 1px solid rgba(20,24,29,.10);
+  box-shadow: 0 26px 70px rgba(20,24,29,.10);
+}
+.hip-spotlight__accent {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 7px;
+  background: linear-gradient(180deg, var(--red), var(--yellow) 48%, var(--blue));
+}
+.hip-spotlight__copy { padding: 58px 50px 54px 56px; position: relative; z-index: 2; }
+.hip-spotlight__badge {
+  display: inline-grid;
+  place-items: center;
+  min-width: 76px;
+  height: 38px;
+  margin: 18px 0 12px;
+  border-radius: 999px;
+  background: var(--blue);
+  color: #fff;
+  font-weight: 900;
+  letter-spacing: .12em;
+  font-size: 13px;
+}
+.hip-spotlight h2 { margin: 0; font-size: clamp(36px, 4vw, 62px); letter-spacing: -.045em; line-height: .98; }
+.hip-spotlight__lead { margin: 18px 0 10px !important; max-width: 640px; font-size: 20px; font-weight: 800; color: var(--ink) !important; }
+.hip-spotlight__copy > p { max-width: 680px; color: var(--muted); line-height: 1.75; }
+.hip-spotlight__points { display: grid; gap: 10px; margin: 24px 0 28px; }
+.hip-spotlight__points span { display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 700; }
+.hip-spotlight__points svg { color: var(--blue); flex: 0 0 auto; }
+.hip-spotlight__actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.hip-spotlight__journey {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-content: center;
+  gap: 1px;
+  padding: 50px 38px;
+  background: rgba(20,24,29,.94);
+}
+.hip-spotlight__journey::before {
+  content: "12-MONTH OWNERSHIP PATH";
+  position: absolute;
+  top: 28px;
+  left: 38px;
+  color: var(--yellow);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .16em;
+}
+.hip-spotlight__journey > div {
+  min-height: 116px;
+  padding: 22px;
+  background: rgba(255,255,255,.045);
+  border: 1px solid rgba(255,255,255,.07);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.hip-spotlight__journey strong { color: var(--yellow); font-size: 30px; letter-spacing: -.04em; }
+.hip-spotlight__journey span { color: #fff; font-size: 12px; font-weight: 800; line-height: 1.35; }
+.hip-spotlight--compact { min-height: 430px; }
+.hip-spotlight--compact .hip-spotlight__copy { padding-block: 46px; }
+.hip-spotlight--compact h2 { font-size: clamp(34px, 3.3vw, 52px); }
+
+.hip-hero-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: flex-end; }
+.hip-intro-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 54px; align-items: start; }
+.hip-intro-grid h2 { margin: 10px 0 18px; max-width: 720px; font-size: clamp(34px, 4vw, 56px); line-height: 1.02; letter-spacing: -.04em; }
+.hip-intro-grid p { max-width: 760px; color: var(--muted); line-height: 1.8; }
+.hip-fit-card { padding: 34px; border-radius: 22px; background: var(--ink); color: #fff; box-shadow: var(--shadow); }
+.hip-fit-card > span { color: var(--yellow); font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: .14em; }
+.hip-fit-card strong { display: block; margin: 16px 0; font-size: 24px; line-height: 1.4; }
+.hip-fit-card p { margin: 0; color: rgba(255,255,255,.7); }
+
+.hip-contribution-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
+.hip-contribution-grid article { position: relative; overflow: hidden; min-height: 210px; padding: 28px; border-radius: 20px; background: #fff; border: 1px solid var(--line); display: flex; flex-direction: column; }
+.hip-contribution-grid article::before { content: ""; position: absolute; inset: 0 0 auto; height: 5px; background: linear-gradient(90deg,var(--yellow),var(--blue)); }
+.hip-contribution-grid span { min-height: 44px; color: var(--muted); font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: .08em; }
+.hip-contribution-grid strong { margin-top: auto; font-size: clamp(25px, 2.5vw, 36px); letter-spacing: -.035em; }
+.hip-contribution-grid small { margin-top: 7px; color: var(--blue); font-weight: 800; }
+
+.hip-steps-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
+.hip-steps-grid article { min-height: 250px; padding: 30px; border: 1px solid var(--line); border-radius: 20px; background: #fff; transition: transform .2s ease, box-shadow .2s ease; }
+.hip-steps-grid article:hover { transform: translateY(-4px); box-shadow: 0 18px 48px rgba(20,24,29,.09); }
+.hip-steps-grid span { display: inline-flex; color: var(--blue); font-size: 12px; font-weight: 900; letter-spacing: .12em; }
+.hip-steps-grid h3 { margin: 36px 0 12px; font-size: 22px; }
+.hip-steps-grid p { margin: 0; color: var(--muted); line-height: 1.7; }
+
+.hip-benefits-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+.hip-benefits-grid article { min-height: 230px; padding: 26px; border-radius: 18px; background: rgba(255,255,255,.055); border: 1px solid rgba(255,255,255,.09); }
+.hip-benefits-grid svg { color: var(--yellow); }
+.hip-benefits-grid h3 { margin: 26px 0 10px; color: #fff; font-size: 19px; }
+.hip-benefits-grid p { margin: 0; color: rgba(255,255,255,.66); line-height: 1.7; }
+
+.hip-terms-card { padding: 42px; border-radius: 24px; background: #fffdf1; border: 1px solid rgba(154,114,8,.22); }
+.hip-terms-card h2 { margin: 10px 0 26px; max-width: 720px; font-size: clamp(30px,3vw,44px); letter-spacing: -.035em; }
+.hip-terms-list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 30px; margin-bottom: 30px; }
+.hip-terms-list p { margin: 0; padding: 16px 0; display: flex; gap: 10px; align-items: flex-start; border-bottom: 1px solid rgba(20,24,29,.09); color: var(--ink-2); line-height: 1.65; }
+.hip-terms-list svg { margin-top: 4px; color: var(--blue); flex: 0 0 auto; }
+
+@media (max-width: 980px) {
+  .hip-spotlight { grid-template-columns: 1fr; }
+  .hip-spotlight__journey { grid-template-columns: repeat(3,1fr); }
+  .hip-intro-grid { grid-template-columns: 1fr; gap: 28px; }
+  .hip-contribution-grid { grid-template-columns: 1fr 1fr; }
+  .hip-steps-grid { grid-template-columns: 1fr 1fr; }
+  .hip-benefits-grid { grid-template-columns: 1fr 1fr; }
+  .hip-hero-actions { justify-content: flex-start; }
+}
+
+@media (max-width: 640px) {
+  .hip-home-section { padding-top: 12px; }
+  .hip-spotlight { border-radius: 20px; }
+  .hip-spotlight__copy { padding: 38px 24px 34px 30px; }
+  .hip-spotlight__lead { font-size: 17px; }
+  .hip-spotlight__journey { grid-template-columns: 1fr 1fr; padding: 54px 18px 20px; }
+  .hip-spotlight__journey::before { left: 18px; top: 25px; }
+  .hip-spotlight__journey > div { min-height: 96px; padding: 16px; }
+  .hip-spotlight__journey strong { font-size: 24px; }
+  .hip-spotlight__actions .btn { width: 100%; justify-content: center; }
+  .hip-contribution-grid,
+  .hip-steps-grid,
+  .hip-benefits-grid,
+  .hip-terms-list { grid-template-columns: 1fr; }
+  .hip-contribution-grid article { min-height: 170px; }
+  .hip-steps-grid article { min-height: 210px; }
+  .hip-terms-card { padding: 28px 22px; }
+}
