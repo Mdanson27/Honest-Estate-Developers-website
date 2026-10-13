@@ -25,9 +25,9 @@ const posterUrl = (filename) =>
 
 const ESTATES = {
   "kakiri-magogo": {
-    name: "Kakiriâ€“Magogo",
+    name: "Kakiri-Magogo",
     folder: "magogo",
-    location: "Hoima Road â€¢ Wakiso",
+    location: "Hoima Road - Wakiso",
     files: [
       "DJI_0382.jpg",
       "DJI_0383.jpg",
@@ -41,13 +41,13 @@ const ESTATES = {
   "nampunge-estate": {
     name: "Nampunge Estate",
     folder: "nampunge",
-    location: "Hoima Road â€¢ Wakiso",
+    location: "Hoima Road - Wakiso",
     files: ["DJI_0396.jpg", "DJI_0399.jpg", "DJI_0400.jpg", "DJI_0403.jpg"],
   },
   "mabombwe-estate": {
     name: "Mabombwe Estate",
     folder: "mabombwe",
-    location: "Hoima Road â€¢ Wakiso",
+    location: "Hoima Road - Wakiso",
     files: [
       "DJI_0414.jpg",
       "DJI_0415.jpg",
@@ -61,9 +61,9 @@ const ESTATES = {
     ],
   },
   "namugongo-sonde": {
-    name: "Namugongoâ€“Sonde",
+    name: "Namugongo-Sonde",
     folder: "ssonde",
-    location: "Namugongo Road â€¢ Wakiso",
+    location: "Namugongo Road - Wakiso",
     files: [
       "DJI_0516.jpg",
       "DJI_0517.jpg",
@@ -81,9 +81,9 @@ const ESTATES = {
     ],
   },
   "mpigi-mpambire": {
-    name: "Mpigiâ€“Mpambire",
+    name: "Mpigi-Mpambire",
     folder: "mpambire-estate-2026",
-    location: "Masaka Road â€¢ Mpigi",
+    location: "Masaka Road - Mpigi",
     files: [
       "BYC 001.jpg",
       "BYC 002.jpg",
@@ -100,7 +100,7 @@ const ESTATES = {
   kiwenda: {
     name: "Kiwenda Estate",
     folder: "kiwenda",
-    location: "HED estate media â€¢ 2026",
+    location: "HED estate media - 2026",
     files: ["DJI_0503.jpg", "DJI_0504.jpg", "DJI_0507.jpg", "DJI_0511.jpg", "DJI_0512.jpg"],
     contactOnly: true,
   },

@@ -243,7 +243,10 @@ function Footer() {
           </a>
           <a href={`mailto:${company.email}`}>{company.email}</a>
           <a href={company.websiteUrl} target="_blank" rel="noreferrer">{company.website}</a>
-          <SocialLinks company={company} className="brand-socials--footer" showLabels />
+          <div className="footer-social-block">
+            <small>Follow HED</small>
+            <SocialLinks company={company} className="brand-socials--footer" />
+          </div>
           <span>{company.address}</span>
         </div>
       </div>

@@ -7632,3 +7632,134 @@ img {
     display: none;
   }
 }
+
+
+/* ======================================================================
+   HED SOCIAL LINKS REFINEMENT
+   Consistent, professional presentation in contact and footer areas.
+   ====================================================================== */
+.contact-social-card {
+  align-items: flex-start !important;
+}
+
+.contact-social-card > span:last-child {
+  width: 100%;
+  min-width: 0;
+}
+
+.contact-social-card .brand-socials--contact {
+  width: 100%;
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.contact-social-card .brand-socials--contact .brand-socials__link {
+  width: 100%;
+  min-width: 0;
+  height: 46px;
+  padding: 0 12px;
+  border: 1px solid #dfe4e8;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #161b20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 5px 16px rgba(20, 24, 29, 0.04);
+}
+
+.contact-social-card .brand-socials--contact .brand-socials__link span {
+  display: block;
+  color: #161b20;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.contact-social-card .brand-socials--contact .brand-socials__link--facebook svg {
+  color: #1877f2;
+}
+
+.contact-social-card .brand-socials--contact .brand-socials__link--linkedin svg {
+  color: #0a66c2;
+}
+
+.contact-social-card .brand-socials--contact .brand-socials__link--x svg {
+  color: #111111;
+}
+
+.contact-social-card .brand-socials--contact .brand-socials__link:hover {
+  transform: translateY(-2px);
+  border-color: #c6ccd2;
+  background: #f8f9fa;
+  box-shadow: 0 10px 24px rgba(20, 24, 29, 0.08);
+}
+
+.footer-social-block {
+  width: 100%;
+  margin-top: 7px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,.09);
+}
+
+.footer .footer-social-block > small {
+  display: block;
+  margin-bottom: 9px;
+  color: rgba(255,255,255,.52);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.footer .brand-socials--footer {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  flex-wrap: nowrap;
+}
+
+.footer .brand-socials--footer .brand-socials__link {
+  width: 38px;
+  min-width: 38px;
+  height: 38px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.055);
+  color: #ffffff;
+  display: inline-grid;
+  place-items: center;
+  box-shadow: none;
+}
+
+.footer .brand-socials--footer .brand-socials__link svg {
+  width: 17px;
+  height: 17px;
+  margin: 0;
+  color: currentColor;
+}
+
+.footer .brand-socials--footer .brand-socials__link:hover {
+  transform: translateY(-2px);
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #11161b;
+  box-shadow: 0 8px 22px rgba(0,0,0,.18);
+}
+
+@media (max-width: 640px) {
+  .contact-social-card .brand-socials--contact {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-social-card .brand-socials--contact .brand-socials__link {
+    justify-content: flex-start;
+    padding-inline: 14px;
+  }
+}
