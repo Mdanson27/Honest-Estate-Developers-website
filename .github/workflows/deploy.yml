@@ -1,4 +1,4 @@
-name: Build HED Production Site
+﻿name: Build HED Production Site
 
 on:
   push:
@@ -100,17 +100,17 @@ jobs:
           git config user.name "HED Production Builder"
           git config user.email "actions@users.noreply.github.com"
 
-          rm -rf assets media property-images
-          mkdir -p property-images
+          rm -rf assets media property-images docs
+          mkdir -p property-images docs
 
           cp -R dist/assets ./assets
-          cp -R dist/media ./media
+          cp -R dist/media ./media`n          cp -R dist/docs/. ./docs/
           find dist/property-images -maxdepth 1 -type f -exec cp {} ./property-images/ \;
           cp dist/index.html ./index.html
           cp "dist/HED OFFICIAL LOGO.png" "./HED OFFICIAL LOGO.png"
           touch .nojekyll
 
-          git add -A index.html assets media property-images "HED OFFICIAL LOGO.png" .nojekyll
+          git add -A index.html assets media property-images docs "HED OFFICIAL LOGO.png" .nojekyll
 
           if git diff --cached --quiet; then
             echo "Production bundle is already current."
@@ -118,3 +118,4 @@ jobs:
             git commit -m "Deploy HED production bundle [skip ci]"
             git push origin main
           fi
+
