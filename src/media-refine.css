@@ -1,0 +1,244 @@
+.hed-video-experience,
+.hed-property-videos {
+  display: none !important;
+}
+
+.hed-media-section--home .hed-media-heading p,
+.hed-property-media .hed-media-heading p,
+.hed-estate-showcase__note {
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+
+.hed-media-section--home .hed-media-heading p::after,
+.hed-property-media .hed-media-heading p::after,
+.hed-estate-showcase__note::after {
+  display: block;
+  color: #68717b;
+  font-size: 12px;
+  line-height: 1.75;
+}
+
+.hed-media-section--home .hed-media-heading p::after {
+  content: "Explore current Honest Estate Developers properties through genuine estate photography captured across HED locations and growth corridors.";
+}
+
+.hed-property-media .hed-media-heading p::after {
+  content: "Explore current Honest Estate Developers estate photography before arranging a site inspection with the HED team.";
+}
+
+.hed-estate-showcase__note::after {
+  content: "Honest Estate Developers combines property information, site inspection support and professional guidance to help clients understand each opportunity before making a decision.";
+}
+
+#hed-video-refined-mount {
+  position: relative;
+  z-index: 2;
+}
+
+.hed-video-refined {
+  margin-top: 72px;
+  padding: 48px 0 8px;
+  border-top: 1px solid #dfe3e7;
+}
+
+.hed-video-refined__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px;
+  margin-bottom: 30px;
+}
+
+.hed-video-refined__head > div:first-child {
+  max-width: 780px;
+}
+
+.hed-video-refined__head h2 {
+  margin: 8px 0 11px;
+  color: #14181d;
+  font-size: clamp(34px, 4.5vw, 58px);
+  line-height: .98;
+  letter-spacing: -.05em;
+}
+
+.hed-video-refined__head p {
+  margin: 0;
+  max-width: 720px;
+  color: #68717b;
+  font-size: 12px;
+  line-height: 1.75;
+}
+
+.hed-video-refined__badge {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid #d9dde2;
+  border-radius: 999px;
+  background: #fff;
+  color: #252b31;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.hed-video-refined__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  align-items: stretch;
+}
+
+.hed-video-refined__card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #dfe3e7;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, .055);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.hed-video-refined__card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 38px rgba(15, 23, 42, .09);
+}
+
+.hed-video-refined__media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #0d1319;
+}
+
+.hed-video-refined__media video,
+.hed-video-refined__poster,
+.hed-video-refined__poster img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.hed-video-refined__media video {
+  object-fit: cover;
+  background: #000;
+}
+
+.hed-video-refined__poster {
+  position: relative;
+  padding: 0;
+  border: 0;
+  background: #0d1319;
+  cursor: pointer;
+}
+
+.hed-video-refined__poster::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.28));
+}
+
+.hed-video-refined__poster img {
+  object-fit: cover;
+  transition: transform .45s ease, opacity .25s ease;
+}
+
+.hed-video-refined__poster:hover img {
+  transform: scale(1.025);
+}
+
+.hed-video-refined__play {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 50%;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  background: #f9d204;
+  color: #11161b;
+  box-shadow: 0 10px 30px rgba(0,0,0,.24);
+}
+
+.hed-video-refined__copy {
+  min-height: 108px;
+  padding: 18px 19px 20px;
+}
+
+.hed-video-refined__copy span {
+  display: block;
+  color: #0362b0;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .095em;
+  line-height: 1.45;
+  text-transform: uppercase;
+}
+
+.hed-video-refined__copy h3 {
+  margin: 7px 0 0;
+  color: #14181d;
+  font-size: 17px;
+  line-height: 1.2;
+  letter-spacing: -.025em;
+}
+
+.hed-video-refined--property {
+  margin-top: 60px;
+}
+
+@media (max-width: 1180px) {
+  .hed-video-refined__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .hed-video-refined__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .hed-video-refined {
+    margin-top: 50px;
+    padding-top: 34px;
+  }
+
+  .hed-video-refined__head {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 22px;
+  }
+
+  .hed-video-refined__head h2 {
+    font-size: 34px;
+  }
+
+  .hed-video-refined__grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .hed-video-refined__copy {
+    min-height: 92px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hed-video-refined__card,
+  .hed-video-refined__poster img {
+    transition: none;
+  }
+}
