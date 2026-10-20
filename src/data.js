@@ -15,11 +15,8 @@ export const company = {
   linkedinUrl: "https://www.linkedin.com/in/honest-estate-developers-746946273/",
   xUrl: "https://x.com/estate_honest",
   email: "hedevelopers20@gmail.com",
-  phonePrimary: "+256 750 791591",
-  phoneSecondary: "+256 772 572873",
-  phoneTertiary: "+256 772 597401",
-  additionalPhones: ["+256 701 572873", "0744463708"],
-  phoneWhatsApp: "256701572873",
+  phonePrimary: "+256 744 463708",
+  phoneWhatsApp: "256744463708",
   hours: "Mon - Sat: 8:00am - 6:00pm",
   address:
     "Martin Road, Mankeshwar Building, near Aga Khan Roundabout, Kampala, Uganda",

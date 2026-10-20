@@ -235,12 +235,6 @@ function Footer() {
           <a href={`tel:${company.phonePrimary.replace(/\s/g, "")}`}>
             {company.phonePrimary}
           </a>
-          <a href={`tel:${company.phoneSecondary.replace(/\s/g, "")}`}>
-            {company.phoneSecondary}
-          </a>
-          <a href={`tel:${company.phoneTertiary.replace(/\s/g, "")}`}>
-            {company.phoneTertiary}
-          </a>
           <a href={`mailto:${company.email}`}>{company.email}</a>
           <a href={company.websiteUrl} target="_blank" rel="noreferrer">{company.website}</a>
           <div className="footer-social-block">
@@ -1843,10 +1837,8 @@ function ContactPage() {
               <a href={`tel:${company.phonePrimary.replace(/\s/g, "")}`}>
                 <Phone size={20} />
                 <span>
-                  <small>Phone</small>
+                  <small>Call / WhatsApp</small>
                   <strong>{company.phonePrimary}</strong>
-                  <strong>{company.phoneSecondary}</strong>
-                  <strong>{company.phoneTertiary}</strong>
                 </span>
               </a>
               <a href={`mailto:${company.email}`}>
