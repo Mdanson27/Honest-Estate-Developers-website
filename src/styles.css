@@ -3721,6 +3721,25 @@ img {
   gap: 13px;
 }
 
+.callback-modal__error {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(237,25,27,.2);
+  border-radius: 9px;
+  background: rgba(237,25,27,.06);
+  color: #a51113;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.55;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.callback-modal .btn:disabled {
+  opacity: .65;
+  cursor: wait;
+}
+
 .callback-modal label,
 .auth-card label {
   display: grid;

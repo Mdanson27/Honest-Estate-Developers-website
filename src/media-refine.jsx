@@ -81,39 +81,39 @@ const HED_VIDEOS = [
 
 const NEWEST_ESTATES = [
   {
-    name: "Mpigi–Mpambire",
-    location: "Masaka Road • Mpigi",
-    price: "UGX 32M / 35M",
-    image: `${baseUrl}media/mpambire-estate-2026/byc-001-thumb.webp`,
-    to: "/properties/mpigi-mpambire",
+    name: "Wakiso-Mubango",
+    location: "Wakiso / Nkoowe corridor",
+    price: "UGX 40M & 45M",
+    image: null,
+    to: "/properties/wakiso-mubango",
   },
   {
-    name: "Namugongo–Sonde",
-    location: "Namugongo Road • Wakiso",
-    price: "UGX 70M",
-    image: `${baseUrl}media/ssonde/dji-0516-thumb.webp`,
-    to: "/properties/namugongo-sonde",
+    name: "Nakawuka-Jjungo",
+    location: "Entebbe Road • Wakiso",
+    price: "UGX 35M",
+    image: null,
+    to: "/properties/nakawuka-jjungo",
   },
   {
-    name: "Nampunge Estate",
-    location: "Hoima Road • Wakiso",
-    price: "UGX 25M",
-    image: `${baseUrl}media/nampunge/dji-0396-thumb.webp`,
-    to: "/properties/nampunge-estate",
+    name: "Namayumba-Buwasa",
+    location: "Namayumba • Buwasa",
+    price: "Contact HED for current plot details",
+    image: null,
+    to: "/contact",
   },
   {
-    name: "Mabombwe Estate",
-    location: "Hoima Road • Wakiso",
-    price: "UGX 30M",
-    image: `${baseUrl}media/mabombwe/dji-0414-thumb.webp`,
-    to: "/properties/mabombwe-estate",
+    name: "Kasanje-Buwaya",
+    location: "Kasanje • Buwaya",
+    price: "Contact HED for current plot details",
+    image: null,
+    to: "/contact",
   },
   {
-    name: "Kakiri–Magogo",
-    location: "Hoima Road • Wakiso",
-    price: "UGX 14M / 16M / 18M",
-    image: `${baseUrl}media/magogo/dji-0382-thumb.webp`,
-    to: "/properties/kakiri-magogo",
+    name: "Gayaza Kiwenda",
+    location: "Gayaza • Kiwenda",
+    price: "Contact HED for current plot details",
+    image: `${baseUrl}media/kiwenda/dji-0503-thumb.webp`,
+    to: "/contact",
   },
 ];
 
@@ -152,36 +152,46 @@ function HedVideoCard({ item }) {
   );
 }
 
-function NewestEstates() {
+export function NewestEstates() {
   return (
     <section className="hed-newest-estates">
-      <div className="hed-newest-estates__head">
-        <div>
-          <span className="eyebrow">Newest estates</span>
-          <h2>See the latest HED estate opportunities</h2>
-          <p>
-            Discover recently highlighted Honest Estate Developers locations and move directly into the property details, estate gallery and site-visit journey.
-          </p>
-        </div>
-        <Link className="hed-newest-estates__all" to="/properties">
-          View all HED estates <ArrowRight size={17} />
-        </Link>
-      </div>
-      <div className="hed-newest-estates__rail">
-        {NEWEST_ESTATES.map((estate) => (
-          <Link className="hed-newest-estate-card" to={estate.to} key={estate.name}>
-            <div className="hed-newest-estate-card__media">
-              <img src={estate.image} alt={`${estate.name} by Honest Estate Developers`} loading="lazy" decoding="async" />
-              <span>HED estate</span>
-            </div>
-            <div className="hed-newest-estate-card__copy">
-              <small><MapPin size={13} /> {estate.location}</small>
-              <h3>{estate.name}</h3>
-              <strong>{estate.price}</strong>
-              <span>Explore estate <ArrowRight size={15} /></span>
-            </div>
+      <div className="shell">
+        <div className="hed-newest-estates__head">
+          <div>
+            <span className="eyebrow">Newest HED estates</span>
+            <h2>New opportunities now being highlighted by Honest Estate Developers</h2>
+            <p>
+              Explore HED's newest estate opportunities. Verified property photography is displayed where it is currently available, while the HED team can provide the latest plot, pricing and site-visit details for every location.
+            </p>
+          </div>
+          <Link className="hed-newest-estates__all" to="/properties">
+            View the full estate portfolio <ArrowRight size={17} />
           </Link>
-        ))}
+        </div>
+        <div className="hed-newest-estates__rail">
+          {NEWEST_ESTATES.map((estate) => (
+            <Link className="hed-newest-estate-card" to={estate.to} key={estate.name}>
+              <div className="hed-newest-estate-card__media">
+                {estate.image ? (
+                  <img src={estate.image} alt={`${estate.name} by Honest Estate Developers`} loading="lazy" decoding="async" />
+                ) : (
+                  <div className="hed-newest-estate-card__placeholder">
+                    <span>New HED estate</span>
+                    <strong>{estate.name}</strong>
+                    <small>Property photography coming soon</small>
+                  </div>
+                )}
+                <span>Newest estate</span>
+              </div>
+              <div className="hed-newest-estate-card__copy">
+                <small><MapPin size={13} /> {estate.location}</small>
+                <h3>{estate.name}</h3>
+                <strong>{estate.price}</strong>
+                <span>{estate.to.startsWith("/properties/") ? "Explore estate" : "Enquire with HED"} <ArrowRight size={15} /></span>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -253,7 +263,6 @@ export default function MediaRefinement() {
   if (!target) return null;
   return createPortal(
     <>
-      {isHome && <NewestEstates />}
       <HedVideoLibrary property={isMpambire} />
     </>,
     target

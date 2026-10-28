@@ -245,9 +245,11 @@
 
 
 .hed-newest-estates {
-  margin-top: 66px;
-  padding: 50px 0 6px;
+  margin-top: 28px;
+  padding: 46px 0 34px;
   border-top: 1px solid #dfe3e7;
+  border-bottom: 1px solid #e7eaed;
+  background: linear-gradient(180deg, rgba(249,210,4,.055), rgba(255,255,255,0));
 }
 
 .hed-newest-estates__head {
@@ -319,6 +321,41 @@
   aspect-ratio: 4 / 3;
   overflow: hidden;
   background: #11161c;
+}
+
+
+.hed-newest-estate-card__placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 5px;
+  padding: 22px 18px;
+  background:
+    radial-gradient(circle at 78% 18%, rgba(249,210,4,.18), transparent 34%),
+    linear-gradient(145deg, #16212b, #0f151b 62%, #1a2731);
+  color: #fff;
+}
+
+.hed-newest-estate-card__placeholder span {
+  color: #f9d204;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+.hed-newest-estate-card__placeholder strong {
+  max-width: 92%;
+  font-size: 22px;
+  line-height: 1.02;
+  letter-spacing: -.04em;
+}
+
+.hed-newest-estate-card__placeholder small {
+  color: rgba(255,255,255,.68);
+  font-size: 9px;
 }
 
 .hed-newest-estate-card__media img {
@@ -394,8 +431,8 @@
 
 @media (max-width: 700px) {
   .hed-newest-estates {
-    margin-top: 48px;
-    padding-top: 34px;
+    margin-top: 18px;
+    padding-top: 32px;
   }
 
   .hed-newest-estates__head {

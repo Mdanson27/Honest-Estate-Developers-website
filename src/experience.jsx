@@ -279,13 +279,62 @@ function MegaLink({ to, title, copy, onClick }) {
 function CallbackModal({ onClose }) {
   const [form, setForm] = useState({ name: "", phone: "", interest: "Property inquiry" });
   const [sent, setSent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
-    const entries = readJson("hed_demo_callback_requests", []);
-    entries.unshift({ ...form, createdAt: new Date().toISOString() });
-    localStorage.setItem("hed_demo_callback_requests", JSON.stringify(entries.slice(0, 20)));
-    setSent(true);
+    setSubmitting(true);
+    setError("");
+
+    const submittedAt = new Date().toLocaleString("en-UG", {
+      dateStyle: "medium",
+      timeStyle: "short",
+    });
+    const message = [
+      "NEW CALLBACK REQUEST FROM THE HED WEBSITE",
+      "",
+      `Customer: ${form.name}`,
+      `Phone / WhatsApp: ${form.phone}`,
+      `Interest: ${form.interest}`,
+      "",
+      `Requested action: Please contact ${form.name} regarding ${form.interest}.`,
+      `Submitted: ${submittedAt}`,
+      `Website page: ${window.location.href}`,
+    ].join("\n");
+
+    try {
+      const response = await fetch(`https://formsubmit.co/ajax/${company.email}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          _subject: `HED Website Callback Request - ${form.name}`,
+          _template: "table",
+          "Customer name": form.name,
+          "Phone / WhatsApp": form.phone,
+          Interest: form.interest,
+          Message: message,
+          Source: "Honest Estate Developers website callback form",
+        }),
+      });
+
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok || result.success === false) {
+        throw new Error(result.message || "Unable to send callback request");
+      }
+
+      const entries = readJson("hed_callback_request_backup", []);
+      entries.unshift({ ...form, createdAt: new Date().toISOString() });
+      localStorage.setItem("hed_callback_request_backup", JSON.stringify(entries.slice(0, 20)));
+      setSent(true);
+    } catch (err) {
+      setError("We could not send the request right now. Please call or WhatsApp HED on +256 744 463708.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -304,9 +353,9 @@ function CallbackModal({ onClose }) {
         {sent ? (
           <div className="callback-success">
             <CheckCircle2 size={35} />
-            <h3>Demo request captured</h3>
+            <h3>Callback request sent</h3>
             <p>
-              This prototype stores the request locally. In production it can be connected to HED's CRM, email or WhatsApp workflow.
+              Thank you. Your request has been sent to Honest Estate Developers and the HED team can contact you using the number you provided.
             </p>
             <button className="btn btn--dark" onClick={onClose}>Continue browsing</button>
           </div>
@@ -314,7 +363,7 @@ function CallbackModal({ onClose }) {
           <>
             <h2>Request a call back</h2>
             <p>
-              Leave your details and choose what you want to discuss. This is currently a functional front-end demo.
+              Share your contact details and the HED team will receive your request directly by email.
             </p>
             <form onSubmit={submit}>
               <label>
@@ -336,7 +385,10 @@ function CallbackModal({ onClose }) {
                   <option>Institutional partnership</option>
                 </select>
               </label>
-              <button className="btn btn--brand btn--full" type="submit">Request callback <ArrowRight size={17} /></button>
+              {error && <p className="callback-modal__error" role="alert">{error}</p>}
+              <button className="btn btn--brand btn--full" type="submit" disabled={submitting}>
+                {submitting ? "Sending request..." : "Request callback"} {!submitting && <ArrowRight size={17} />}
+              </button>
             </form>
           </>
         )}

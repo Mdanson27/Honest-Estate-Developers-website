@@ -62,6 +62,7 @@ import {
   SignupDemo,
 } from "./experience";
 import { SocialLinks } from "./social-icons";
+import { NewestEstates } from "./media-refine";
 
 const money = new Intl.NumberFormat("en-UG", {
   style: "currency",
@@ -453,9 +454,9 @@ function LatestFromHed() {
     <section className="section latest-section">
       <div className="shell">
         <SectionIntro
-          eyebrow="Newest & latest"
-          title="The latest from Honest Estate Developers"
-          copy="Recent property opportunities and the newest educational content currently available in the HED website portfolio."
+          eyebrow="HED updates"
+          title="Property highlights and useful HED insights"
+          copy="A selection of highlighted property opportunities alongside practical educational content from Honest Estate Developers."
           action={
             <Link className="text-link" to="/insights">
               View all insights <ArrowRight size={17} />
@@ -703,6 +704,8 @@ function HomePage() {
       <div className="shell search-lift">
         <PropertySearch />
       </div>
+
+      <NewestEstates />
 
       <section className="trust-strip">
         <div className="shell trust-strip__grid">
