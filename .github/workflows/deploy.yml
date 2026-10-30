@@ -157,7 +157,9 @@ jobs:
             echo "Production bundle is already current."
           else
             git commit -m "Deploy HED production bundle [skip ci]"
-            git push origin main
+            git fetch origin main
+            git rebase origin/main
+            git push origin HEAD:main
           fi
 
-# trigger: corrected production video path
+# trigger: conflict-safe production publish
