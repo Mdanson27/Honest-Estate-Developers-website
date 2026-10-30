@@ -90,6 +90,45 @@ jobs:
           fetch_photo "namugongo-sonde.webp" "166002707620230926041943pm.jpg"
           fetch_photo "mpigi-mpambire.webp" "21025318020260608084742pm.jpg"
 
+      - name: Recover verified Bujuuko House 4 media from Drive
+        shell: bash
+        run: |
+          set -euo pipefail
+          photo_dir="public/property-images/2026/bujuuko-house-4"
+          video_dir="public/videos/2026/bujuuko-house-4"
+          mkdir -p "$photo_dir" "$video_dir"
+
+          fetch_drive_file() {
+            local id="$1"
+            local target="$2"
+            local minimum="$3"
+            local temp="${target}.download"
+            rm -f "$temp"
+            curl --fail --location --silent --show-error \
+              --retry 4 --retry-delay 2 --connect-timeout 20 --max-time 120 \
+              "https://drive.usercontent.google.com/download?id=${id}&export=download&confirm=t" \
+              --output "$temp"
+            local size
+            size=$(wc -c < "$temp")
+            if [ "$size" -lt "$minimum" ]; then
+              echo "Drive download too small for $target: $size bytes"
+              rm -f "$temp"
+              exit 1
+            fi
+            mv "$temp" "$target"
+            echo "Recovered $target ($size bytes)"
+          }
+
+          fetch_drive_file "1LWIGAug4kP0u-jXT8xi9emSpdn4rF7n1" "$photo_dir/20260917_142250.jpg" 100000
+          fetch_drive_file "1SiSzKxb8RXpwjej67B5XKlqeNW3SS1FA" "$photo_dir/20260917_142253.jpg" 100000
+          fetch_drive_file "1c0y_bHu5DCUszgd2myosImyRdNUXFY26" "$photo_dir/20260917_142405.jpg" 100000
+          fetch_drive_file "16_xVTrp9OR6Q9cNwswb_8zlTcCOnn2Ar" "$photo_dir/20260917_142410.jpg" 100000
+          fetch_drive_file "1fe9bqq3f0-I5pbL4L_VrCzrq2mNsjv29" "$photo_dir/20260917_142715.jpg" 100000
+          fetch_drive_file "1FDN8l0uy7NNStC1bD4z3_MWo7rUdPFRg" "$photo_dir/20260917_142725.jpg" 100000
+          fetch_drive_file "1I0D1Ux20VSC9CT_ev7cFQn6RXsaB3SMe" "$photo_dir/20260917_142950.jpg" 100000
+          fetch_drive_file "12LhkJ7BNW76ZmOCzDFmXnVp31ZdMHEu0" "$photo_dir/20260917_142956.jpg" 100000
+          fetch_drive_file "1jlJjf8MqgtYzOPrg0NPV7f7flnxXbfOL" "$video_dir/bujuuko-house-4-overview.mp4" 1000000
+
       - name: Build production bundle and optimized media
         run: npm run build
 
@@ -100,18 +139,19 @@ jobs:
           git config user.name "HED Production Builder"
           git config user.email "actions@users.noreply.github.com"
 
-          rm -rf assets media property-images docs
-          mkdir -p property-images docs
+          rm -rf assets media property-images videos docs
+          mkdir -p property-images videos docs
 
           cp -R dist/assets ./assets
           cp -R dist/media ./media
+          cp -R dist/videos ./videos
           cp -R dist/docs/. ./docs/
           find dist/property-images -maxdepth 1 -type f -exec cp {} ./property-images/ \;
           cp dist/index.html ./index.html
           cp "dist/HED OFFICIAL LOGO.png" "./HED OFFICIAL LOGO.png"
           touch .nojekyll
 
-          git add -A index.html assets media property-images docs "HED OFFICIAL LOGO.png" .nojekyll
+          git add -A index.html assets media property-images videos docs "HED OFFICIAL LOGO.png" .nojekyll
 
           if git diff --cached --quiet; then
             echo "Production bundle is already current."
@@ -119,4 +159,3 @@ jobs:
             git commit -m "Deploy HED production bundle [skip ci]"
             git push origin main
           fi
-

@@ -15,13 +15,33 @@ const safeStem = (filename) =>
 const photoUrl = (folder, filename, size = "main") =>
   `${baseUrl}media/${folder}/${safeStem(filename)}-${size}.webp`;
 
-const videoUrl = (filename) =>
-  import.meta.env.DEV
-    ? `${baseUrl}videos/2026/mpambire/${filename}`
-    : `${baseUrl}public/videos/2026/mpambire/${filename}`;
+const videoUrl = (folder, filename) => `${baseUrl}videos/2026/${folder}/${filename}`;
 
-const posterUrl = (filename) =>
-  `${baseUrl}media/video-posters/${safeStem(filename)}.webp`;
+const posterUrl = (filename) => `${baseUrl}media/video-posters/${safeStem(filename)}.webp`;
+
+const MPAMBIRE_VIDEOS = [
+  {
+    title: "Mpambire drone overview",
+    label: "Aerial tour",
+    folder: "mpambire",
+    file: "mpambire-drone-overview.mp4",
+    poster: "mpambire-drone-poster.jpg",
+  },
+  {
+    title: "Mpambire site visit 1",
+    label: "Ground view",
+    folder: "mpambire",
+    file: "mpambire-site-visit-1.mp4",
+    poster: "mpambire-site-visit-1-poster.jpg",
+  },
+  {
+    title: "Mpambire site visit 3",
+    label: "Extended site view",
+    folder: "mpambire",
+    file: "mpambire-site-visit-3.mp4",
+    poster: "mpambire-site-visit-3-poster.jpg",
+  },
+];
 
 const ESTATES = {
   "kakiri-magogo": {
@@ -95,7 +115,7 @@ const ESTATES = {
       "BYC 008.jpg",
       "BYC 009.jpg",
     ],
-    videos: true,
+    videos: MPAMBIRE_VIDEOS,
   },
   kiwenda: {
     name: "Kiwenda Estate",
@@ -115,37 +135,45 @@ const HOME_ORDER = [
   "kiwenda",
 ];
 
-const VIDEO_ITEMS = [
-  {
-    title: "Mpambire drone overview",
-    label: "Aerial tour",
-    file: "mpambire-drone-overview.mp4",
-    poster: "mpambire-drone-poster.jpg",
-  },
-  {
-    title: "Mpambire site visit 1",
-    label: "Ground view",
-    file: "mpambire-site-visit-1.mp4",
-    poster: "mpambire-site-visit-1-poster.jpg",
-  },
-  {
-    title: "Mpambire site visit 3",
-    label: "Extended site view",
-    file: "mpambire-site-visit-3.mp4",
-    poster: "mpambire-site-visit-3-poster.jpg",
-  },
-];
+const BUJUUKO_PROJECT = {
+  name: "Bujuuko House 4",
+  folder: "bujuuko-house-4",
+  location: "Bujuuko - residential development portfolio",
+  files: [
+    "20260917_142250.jpg",
+    "20260917_142253.jpg",
+    "20260917_142405.jpg",
+    "20260917_142410.jpg",
+    "20260917_142715.jpg",
+    "20260917_142725.jpg",
+    "20260917_142950.jpg",
+    "20260917_142956.jpg",
+  ],
+  videos: [
+    {
+      title: "Bujuuko House 4 development overview",
+      label: "Construction portfolio",
+      folder: "bujuuko-house-4",
+      file: "bujuuko-house-4-overview.mp4",
+      posterFolder: "bujuuko-house-4",
+      posterPhoto: "20260917_142250.jpg",
+    },
+  ],
+};
 
 function VideoCard({ item, featured = false }) {
   const [playing, setPlaying] = useState(false);
+  const poster = item.posterPhoto
+    ? photoUrl(item.posterFolder, item.posterPhoto, "main")
+    : posterUrl(item.poster);
 
   return (
     <article className={`hed-video-card ${featured ? "hed-video-card--featured" : ""}`}>
       <div className="hed-video-card__media">
         {playing ? (
           <video
-            src={videoUrl(item.file)}
-            poster={posterUrl(item.poster)}
+            src={videoUrl(item.folder, item.file)}
+            poster={poster}
             controls
             autoPlay
             playsInline
@@ -158,7 +186,7 @@ function VideoCard({ item, featured = false }) {
             onClick={() => setPlaying(true)}
             aria-label={`Play ${item.title}`}
           >
-            <img src={posterUrl(item.poster)} alt="" loading="lazy" decoding="async" />
+            <img src={poster} alt="" loading="lazy" decoding="async" />
             <span className="hed-video-card__play"><Play size={22} fill="currentColor" /></span>
             <span className="hed-video-card__hint">HED video</span>
           </button>
@@ -182,7 +210,7 @@ function EstatePhotoStage({ estate, index, setIndex, compact = false }) {
       <img
         key={`${estate.folder}-${file}`}
         src={photoUrl(estate.folder, file, "main")}
-        alt={`${estate.name} estate view ${index + 1}`}
+        alt={`${estate.name} view ${index + 1}`}
         loading="lazy"
         decoding="async"
       />
@@ -194,8 +222,8 @@ function EstatePhotoStage({ estate, index, setIndex, compact = false }) {
       </div>
       {estate.files.length > 1 && (
         <div className="hed-photo-stage__nav">
-          <button type="button" onClick={previous} aria-label="Previous estate photo"><ChevronLeft size={20} /></button>
-          <button type="button" onClick={next} aria-label="Next estate photo"><ChevronRight size={20} /></button>
+          <button type="button" onClick={previous} aria-label="Previous photo"><ChevronLeft size={20} /></button>
+          <button type="button" onClick={next} aria-label="Next photo"><ChevronRight size={20} /></button>
         </div>
       )}
     </div>
@@ -205,6 +233,7 @@ function EstatePhotoStage({ estate, index, setIndex, compact = false }) {
 function HomeEstateMedia() {
   const [estateKey, setEstateKey] = useState(HOME_ORDER[0]);
   const [index, setIndex] = useState(0);
+  const [bujuukoIndex, setBujuukoIndex] = useState(0);
   const estate = ESTATES[estateKey];
 
   const selectEstate = (key) => {
@@ -221,7 +250,7 @@ function HomeEstateMedia() {
             <h2>Explore the estates through current photography and video.</h2>
             <p>Explore real Honest Estate Developers locations through current estate photography captured across HED's active property portfolio.</p>
           </div>
-          <div className="hed-media-heading__badge"><Images size={18} /> 2026 estate photography</div>
+          <div className="hed-media-heading__badge"><Images size={18} /> Verified HED media</div>
         </div>
 
         <div className="hed-estate-tabs" role="tablist" aria-label="HED estate media">
@@ -256,6 +285,33 @@ function HomeEstateMedia() {
         <div className="hed-video-experience">
           <div className="hed-video-experience__head">
             <div>
+              <span className="eyebrow">Construction & Development</span>
+              <h2>Bujuuko House 4</h2>
+              <p>Explore a completed HED residential development through verified exterior, interior and walkthrough media.</p>
+            </div>
+            <div className="hed-video-experience__zero"><Images size={18} /> 8 project photos</div>
+          </div>
+
+          <div className="hed-estate-showcase">
+            <EstatePhotoStage estate={BUJUUKO_PROJECT} index={bujuukoIndex} setIndex={setBujuukoIndex} />
+            <aside className="hed-estate-showcase__info">
+              <span className="eyebrow">Built portfolio</span>
+              <h3>{BUJUUKO_PROJECT.name}</h3>
+              <p><MapPin size={16} /> Bujuuko</p>
+              <strong>Residential construction & development</strong>
+              <p className="hed-estate-showcase__note">This project is intentionally separated from HED's land listings so visitors can clearly distinguish built-property work from available estates.</p>
+              <Link className="btn btn--dark" to="/contact">Discuss a construction project <ArrowRight size={17} /></Link>
+            </aside>
+          </div>
+
+          <div className="hed-video-grid hed-video-grid--property">
+            {BUJUUKO_PROJECT.videos.map((item) => <VideoCard key={item.file} item={item} featured />)}
+          </div>
+        </div>
+
+        <div className="hed-video-experience">
+          <div className="hed-video-experience__head">
+            <div>
               <span className="eyebrow">Watch the property</span>
               <h2>Mpambire estate video experience</h2>
               <p>See Honest Estate Developers on the ground through estate tours, property visits and current field footage from the HED team.</p>
@@ -263,7 +319,7 @@ function HomeEstateMedia() {
             <div className="hed-video-experience__zero"><Video size={18} /> HED video tours</div>
           </div>
           <div className="hed-video-grid">
-            {VIDEO_ITEMS.map((item, itemIndex) => (
+            {MPAMBIRE_VIDEOS.map((item, itemIndex) => (
               <VideoCard key={item.file} item={item} featured={itemIndex === 0} />
             ))}
           </div>
@@ -315,26 +371,21 @@ function PropertyGallery({ slug }) {
                 onClick={() => setIndex(fileIndex)}
                 aria-label={`Show photo ${fileIndex + 1}`}
               >
-                <img
-                  src={photoUrl(estate.folder, file, "thumb")}
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-                />
+                <img src={photoUrl(estate.folder, file, "thumb")} alt="" loading="lazy" decoding="async" />
               </button>
             ))}
           </div>
         </div>
 
-        {estate.videos && (
+        {estate.videos?.length > 0 && (
           <div className="hed-property-videos">
             <div className="hed-property-videos__head">
               <span className="eyebrow">Video tours</span>
-              <h2>Drone and site footage from Mpambire</h2>
-              <p>Watch Honest Estate Developers' Mpambire footage and experience the estate from aerial and on-site perspectives.</p>
+              <h2>Drone and site footage from {estate.name}</h2>
+              <p>Watch verified HED footage from this estate and experience it from aerial and on-site perspectives.</p>
             </div>
             <div className="hed-video-grid hed-video-grid--property">
-              {VIDEO_ITEMS.map((item, itemIndex) => (
+              {estate.videos.map((item, itemIndex) => (
                 <VideoCard key={item.file} item={item} featured={itemIndex === 0} />
               ))}
             </div>
